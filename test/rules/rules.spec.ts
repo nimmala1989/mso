@@ -59,7 +59,7 @@ test.describe("On Rules Page", async () => {
         await create.verifyDuplicateRuleErrorMessage(create.data.name)
     })
 
-    test.only("Check that error displayed with wrong percentage", async ({ page }) => {
+    test("Check that error displayed with wrong percentage", async ({ page }) => {
         await rules.openRulesPopup()
         await create.tryToCreateRuleWithWrongPercentageAndVerifyError()
     })
