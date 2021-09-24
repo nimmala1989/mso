@@ -8,7 +8,7 @@ const config: PlaywrightTestConfig = {
 
     
     // timeout options
-    timeout: 300000,
+    timeout: 60000,
     globalTimeout: 3000000,
 
     // Number of times to execution tests if failed
