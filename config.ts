@@ -32,8 +32,8 @@ const config: PlaywrightTestConfig = {
         browserName: 'chromium',
         channel: 'chrome',
         // Artifacts
-        screenshot: 'only-on-failure',
-        video: 'retry-with-video',
+        screenshot: 'on',
+        video: 'on',
         trace: 'retry-with-trace',
 
         // Context options
