@@ -63,6 +63,33 @@ test.describe("On Rules Page", async () => {
         await rules.openRulesPopup()
         await create.tryToCreateRuleWithWrongPercentageAndVerifyError()
     })
+
+    test.describe('For Advance Settings', async () => {
+
+        test('Verify Maximum Cannot be greater than lot error', async ({page}) => {
+            await rules.openRulesPopup();
+            const errorMessages = await create.advanceSettingsErrorMessages();
+            errorMessages.verifyMaximumCannotBeGreaterThanLot()
+        })
+
+        test('Verify minimum Cannot be greater than lot error', async ({page}) => {
+            await rules.openRulesPopup();
+            const errorMessages = await create.advanceSettingsErrorMessages();
+            errorMessages.verifyMinimumCannotBeGreaterThanLot()
+        })
+
+        test('Verify minimum cannot be greater than maximum', async ({page}) => {
+            await rules.openRulesPopup();
+            const errorMessages = await create.advanceSettingsErrorMessages();
+            errorMessages.verifyMinimumCannotBeGreaterThanMaximum()
+        })
+
+        test('Verify percentage must be between min and max', async ({page}) => {
+            await rules.openRulesPopup();
+            const errorMessages = await create.advanceSettingsErrorMessages();
+            errorMessages.verifyPercentageMustBeBetweenMinAndMax()
+        })
+    })
 })
 
 

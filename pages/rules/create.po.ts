@@ -150,4 +150,34 @@ export class Create {
         expect(invalidPercentageError.trim()).toEqual('Invalid percentage')
         expect(invalidRangeError.trim()).toEqual('Invalid percentage range')
     }
+
+    async advanceSettingsErrorMessages() {
+        await this.instantiate()
+        await this.enterName()
+        await this.selectRuleGroup('Defect Inspect')
+        await this.enterDescription()
+        await this.enterPercentages(25, 4, 50)
+        return {
+            async verifyMinimumCannotBeGreaterThanMaximum() {
+                await this.enterAdvancedSettings(23, 4, 1)
+                const errorMessage = await this.page.textContent('span.error-text span')
+                expect(errorMessage.trim()).toEqual('Minimum can not be greater than maximum')
+            },
+            async verifyPercentageMustBeBetweenMinAndMax() {
+                await this.enterAdvancedSettings(24, 33, 34)
+                const errorMessage = await this.page.textContent('span.error-text span')
+                expect(errorMessage.trim()).toEqual('Percent must be between min and max')
+            },
+            async verifyMaximumCannotBeGreaterThanLot() {
+                await this.enterAdvancedSettings(24, 33, 25)
+                const errorMessage = await this.page.textContent('span.error-text span')
+                expect(errorMessage.trim()).toEqual('Maximum can not be greater than lot history')
+            },
+            async verifyMinimumCannotBeGreaterThanLot() {
+                await this.enterAdvancedSettings(4, 8, 2)
+                const errorMessage = await this.page.textContent('span.error-text span')
+                expect(errorMessage.trim()).toEqual('Minimum can not be greater than lot history')
+            }
+        }   
+    }
 }
