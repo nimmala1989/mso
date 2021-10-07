@@ -27,7 +27,7 @@ test.describe("On Rules Page", async () => {
     })
 
     test.describe('Create a new rule', async () => {
-        test("Create a percent rule with mandatory fields and verify", async ({ page }) => {
+        test("Create a percent rule with mandatory fields and verify it is created", async ({ page }) => {
             await rules.openRulesPopup()
             await create.percentageRule()
             await table.selectByName(create.data.name)
@@ -35,7 +35,7 @@ test.describe("On Rules Page", async () => {
             await editOrView.verifyName(create.data.name)
         })
 
-        test("Create a event rule with mandatory fields and verify", async ({ page }) => {
+        test("Create a event rule with mandatory fields and verify it is created", async ({ page }) => {
             await rules.openRulesPopup()
             await create.eventRule()
             await table.selectByName(create.data.name)
@@ -43,12 +43,21 @@ test.describe("On Rules Page", async () => {
             await editOrView.verifyName(create.data.name)
         })
 
-        test("Create a time rule with mandatory fields and verify", async ({ page }) => {
+        test("Create a time rule with mandatory fields and verify it is created", async ({ page }) => {
             await rules.openRulesPopup()
             await create.timeRule()
             await table.selectByName(create.data.name)
             await page.waitForSelector('mat-drawer[mode="side"]')
             await editOrView.verifyName(create.data.name)
+        })
+
+        test("Create a rule including process links and verify it is created", async ({ page }) => {
+            await rules.openRulesPopup()
+            await create.processLink()
+            await table.selectByName(create.data.name)
+            await page.waitForSelector('mat-drawer[mode="side"]')
+            await editOrView.verifyName(create.data.name)
+
         })
     })
 

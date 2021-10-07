@@ -190,6 +190,26 @@ export class Common {
         }
     }
 
+    get processLinks() {
+        const self = this
+        return {
+            async open() {
+                await (await self.form.waitForSelector('[formname="processLinks"] i.fa-plus-square')).click();
+            },
+            async selectMainProcess(value: string) {
+                await (await self.form.waitForSelector('id=fromMsoProcess')).click()
+                await self.page.click(`#fromMsoProcess-panel mat-option span:has-text("${value}")`)
+            },
+            async selectSamplingProcess(value: string) {
+                await (await self.form.waitForSelector('id=toMsoProcess')).click()
+                await self.page.click(`#toMsoProcess-panel mat-option span:has-text("${value}")`)
+            },
+            async clickOk() {
+                await (await self.page.$('button:has-text("Ok")')).click();
+            }
+        }
+    }
+
     get counter() {
         const self = this
         return {
