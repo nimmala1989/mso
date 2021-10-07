@@ -90,6 +90,25 @@ test.describe("On Rules Page", async () => {
             errorMessages.verifyPercentageMustBeBetweenMinAndMax()
         })
     })
+
+    test.describe('For Expiration field', async () => {
+
+        test('Verify Expiration date cannot be empty', async ({page}) => {
+            await rules.openRulesPopup();
+            const errorMessages = await create.expirationErrorMessages();
+            errorMessages.verifyEmptyExpireDateErrorMessage()
+        })
+        test('Verify Warning and expiration dates cannot be same', async ({page}) => {
+            await rules.openRulesPopup();
+            const errorMessages = await create.expirationErrorMessages();
+            errorMessages.verifyWarningAndExpirationDateCannotBeSame()
+        })
+        test('Verify Warning date must be before expiration date', async ({page}) => {
+            await rules.openRulesPopup();
+            const errorMessages = await create.expirationErrorMessages();
+            errorMessages.verifyWarningDateMustBeBeforeExpirationDate()
+        })
+    })
 })
 
 
