@@ -58,12 +58,14 @@ export class Create {
         await this.form.advancedSettings.enterNumberOfLogsForHistory(noOfLogs.toString())
     }
 
-    async enterExpirationDates(warn: Date, expire: Date) {
+    async enterExpirationDates(warn: Date, expire: Date | undefined) {
         let warnDateToString = `${warn.getMonth() +  1}/${warn.getDate()}/${warn.getFullYear()}`
-        let expireDateToString = `${expire.getMonth() +  1}/${expire.getDate()}/${expire.getFullYear()}`
         await this.form.expiration.select()
         await this.form.expiration.enterWarn(warnDateToString)
-        await this.form.expiration.enterExpire(expireDateToString)
+        if (expire) {
+            let expireDateToString = `${expire.getMonth() +  1}/${expire.getDate()}/${expire.getFullYear()}`
+            await this.form.expiration.enterExpire(expireDateToString)
+        }
     }
 
     async selectDecision(value: "All" | "Tag" | "Skip") {
@@ -149,5 +151,63 @@ export class Create {
         const invalidRangeError: string = await this.page.textContent('app-percent-condition app-error-text >> nth=1')
         expect(invalidPercentageError.trim()).toEqual('Invalid percentage')
         expect(invalidRangeError.trim()).toEqual('Invalid percentage range')
+    }
+
+    async advanceSettingsErrorMessages() {
+        const self = this;
+        await this.instantiate()
+        await this.enterName()
+        await this.selectRuleGroup('Defect Inspect')
+        await this.enterDescription()
+        await this.enterPercentages(25, 4, 50)
+        return {
+            async verifyMinimumCannotBeGreaterThanMaximum() {
+                await self.enterAdvancedSettings(23, 4, 1)
+                const errorMessage = await self.page.textContent('span.error-text span')
+                expect(errorMessage.trim()).toEqual('Minimum can not be greater than maximum')
+            },
+            async verifyPercentageMustBeBetweenMinAndMax() {
+                await self.enterAdvancedSettings(24, 33, 34)
+                const errorMessage = await self.page.textContent('span.error-text span')
+                expect(errorMessage.trim()).toEqual('Percent must be between min and max')
+            },
+            async verifyMaximumCannotBeGreaterThanLot() {
+                await self.enterAdvancedSettings(24, 33, 25)
+                const errorMessage = await self.page.textContent('span.error-text span')
+                expect(errorMessage.trim()).toEqual('Maximum can not be greater than lot history')
+            },
+            async verifyMinimumCannotBeGreaterThanLot() {
+                await self.enterAdvancedSettings(4, 8, 2)
+                const errorMessage = await self.page.textContent('span.error-text span')
+                expect(errorMessage.trim()).toEqual('Minimum can not be greater than lot history')
+            }
+        }   
+    }
+
+    async expirationErrorMessages() {
+        const self = this;
+        await this.instantiate()
+        await this.enterName()
+        await this.selectRuleGroup('Defect Inspect')
+        await this.enterDescription()
+        await this.enterPercentages(25, 4, 50)
+        await this.enterAdvancedSettings(2, 4, 23)
+        return {
+            async verifyEmptyExpireDateErrorMessage() {
+                await self.enterExpirationDates(new Date('2/17/2022'), undefined)
+                const errorMessage = await self.page.textContent('span.error-text span')
+                expect(errorMessage.trim()).toEqual('If a warning date is entered an expiration date is required')
+            },
+            async verifyWarningAndExpirationDateCannotBeSame() {
+                await self.enterExpirationDates(new Date('2/17/2022'), new Date('2/17/2022'))
+                const errorMessage = await self.page.textContent('span.error-text span')
+                expect(errorMessage.trim()).toEqual('Warning date must be before the expiration date')
+            },
+            async verifyWarningDateMustBeBeforeExpirationDate() {
+                await self.enterExpirationDates(new Date('2/17/2022'), new Date('2/10/2022'))
+                const errorMessage = await self.page.textContent('span.error-text span')
+                expect(errorMessage.trim()).toEqual('Warning date must be before the expiration date')
+            }
+        }
     }
 }
