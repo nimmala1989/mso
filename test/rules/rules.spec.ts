@@ -122,6 +122,18 @@ test.describe("On Rules Page", async () => {
             })
         })
     })
+
+    test.describe('Update an existing rule', async () => {
+
+        test.only('Update rule name and verify', async ({ page }) => {
+            await rules.openRulesPopup()
+            await createOrUpdate.percentageRule()
+            await table.selectByName(createOrUpdate.data.name)
+            await page.waitForSelector('mat-drawer[mode="side"]')
+            await editOrView.verifyName(createOrUpdate.data.name)
+            await createOrUpdate.enterName()
+        })
+    })
 })
 
 
