@@ -1,7 +1,8 @@
 import { Page, expect } from "@playwright/test";
 import { CommonActions } from "../../utilities/common";
 import { Common } from "./common.po";
-import { Comment } from './comment.po'
+import { Comment } from './comment.po';
+import { Endpoints } from '../../config/setup';
 import got from 'got';
 
 
@@ -49,13 +50,13 @@ export class EditOrView {
     }
 
     async getRules() {
-        const res = await got('https://fpsdev7.inficonims.com/mso18/api/rules/facility/FAB2')
+        const res = await got(`${Endpoints.baseUrl}${Endpoints.getrules()}`)
         return JSON.parse(res.body);
     }
 
     async deleteRules(id: string, auth: string) {
         const { data } = await got.delete({
-            url: `https://fpsdev7.inficonims.com/mso18/api/rules/${id}`,
+            url: `${Endpoints.baseUrl}${Endpoints.deleteRule(id)}`,
             headers: {
                 "accept": "application/json, text/plain, */*",
                 "accept-language": "en-US,en;q=0.9",

@@ -1,5 +1,5 @@
 import { test } from '@playwright/test';
-import { pageUrl } from '../../config/setup'
+import { Endpoints } from '../../config/setup'
 import { Login } from '../../pages/login.po';
 import { Rules } from '../../pages/rules/rules.po';
 import { Create } from '../../pages/rules/create.po';
@@ -26,7 +26,7 @@ test.describe("On Rules Page", async () => {
                 authorizationToken = allHeaders.authorization
             }
         })
-        const ad = await page.goto(pageUrl, { timeout: 120000, waitUntil: 'load' });
+        await page.goto(Endpoints.baseUrl + Endpoints.baseEndpoint, { timeout: 120000, waitUntil: 'load' });
         await login.loginToTheApplication('qauser1', 'monozukuri')
         await login.selectClient('FAB2')
         await rules.waitForPageLoad()
@@ -64,7 +64,7 @@ test.describe("On Rules Page", async () => {
     })
 
     test.describe('For Negative scenarios', async () => {
-        test("Check that rules with duplicate name cannot be created", async ({ page }) => {
+        test("Check that rules with duplicate name cannot be created", async () => {
             await rules.openRulesPopup()
             await create.percentageRule()
             await table.selectByName(create.data.name)
@@ -78,7 +78,7 @@ test.describe("On Rules Page", async () => {
         })
 
         test.describe('For Advance Settings', async () => {
-            test('Verify different error messages', async ({ page }) => {
+            test('Verify different error messages', async () => {
                 await rules.openRulesPopup();
                 const errorMessages = await create.advanceSettingsErrorMessages();
                 await errorMessages.verifyMaximumCannotBeGreaterThanLot()
