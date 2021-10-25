@@ -96,20 +96,14 @@ export class Create {
 
     async percentageRule() {
         await this.instantiate()
-        // await this.enterName()
-        // await this.selectRuleGroup('Defect Inspect')
-        // await this.enterDescription()
-        // await this.enterPercentages(25, 4, 50)
-        // await this.enterAdvancedSettings(2, 4, 23)
-        // await this.enterExpirationDates(new Date('2/17/2022'), new Date('3/17/2022'))
-        await this.selectDecision('All')
-        await this.selectProdValue('Each')
         await this.enterName()
         await this.selectRuleGroup('Defect Inspect')
         await this.enterDescription()
         await this.enterPercentages(25, 4, 50)
         await this.enterAdvancedSettings(2, 4, 23)
         await this.enterExpirationDates(new Date('2/17/2022'), new Date('3/17/2022'))
+        await this.selectDecision('All')
+        await this.selectProdValue('Each')
         await this.submit()
         await this.comment.enterComment("created rule with automation script");
         await this.comment.submit();
