@@ -26,7 +26,7 @@ export class Create {
     }
 
     async selectRuleGroup(groupToSelect: 'Defect Inspect' | 'Dummy Inspection' | 'Yield Inspection' = 'Defect Inspect') {
-        await this.form.ruleGroup.select('Defect Inspect');
+        await this.form.ruleGroup.select(groupToSelect);
     }
 
     async enterDescription(desc: string = `Creating rules with automation - ${CommonActions.randomString(4)}`) {
@@ -87,16 +87,29 @@ export class Create {
         await this.form.createButton.click();
     }
 
+    async addProcessLinks(main: string, sampling: string) {
+        await this.form.processLinks.open()
+        await this.form.processLinks.selectMainProcess(main)
+        await this.form.processLinks.selectSamplingProcess(sampling)
+        await this.form.processLinks.clickOk()
+    }
+
     async percentageRule() {
         await this.instantiate()
+        // await this.enterName()
+        // await this.selectRuleGroup('Defect Inspect')
+        // await this.enterDescription()
+        // await this.enterPercentages(25, 4, 50)
+        // await this.enterAdvancedSettings(2, 4, 23)
+        // await this.enterExpirationDates(new Date('2/17/2022'), new Date('3/17/2022'))
+        await this.selectDecision('All')
+        await this.selectProdValue('Each')
         await this.enterName()
         await this.selectRuleGroup('Defect Inspect')
         await this.enterDescription()
         await this.enterPercentages(25, 4, 50)
         await this.enterAdvancedSettings(2, 4, 23)
         await this.enterExpirationDates(new Date('2/17/2022'), new Date('3/17/2022'))
-        await this.selectDecision('All')
-        await this.selectProdValue('Each')
         await this.submit()
         await this.comment.enterComment("created rule with automation script");
         await this.comment.submit();
@@ -133,10 +146,26 @@ export class Create {
         this.data = this.form.newRuleData;
     }
 
+    async processLink() {
+        await this.instantiate()
+        await this.enterName()
+        await this.selectRuleGroup('Defect Inspect')
+        await this.enterDescription()
+        await this.enterPercentages(25, 4, 50)
+        await this.enterAdvancedSettings(2, 4, 23)
+        await this.enterExpirationDates(new Date('2/17/2022'), new Date('3/17/2022'))
+        await this.selectDecision('All')
+        await this.selectProdValue('Each')
+        await this.addProcessLinks('STEP1000093143', 'STEP1000099908')
+        await this.submit()
+        await this.comment.enterComment("created rule with automation script");
+        await this.comment.submit();
+        this.data = this.form.newRuleData;
+    }
+
     async verifyDuplicateRuleErrorMessage(ruleName: string) {
         await this.form.instantiate()
         await this.form.ruleName.enter(ruleName)
-        await this.page.keyboard.press('Tab')
         const errorMessage = await this.page.textContent('[for="smpRuleName"] + div mat-error span[class="ng-star-inserted"]')
         expect(errorMessage).toEqual('Rule name is already taken')
     }
@@ -148,9 +177,7 @@ export class Create {
         await this.enterDescription()
         await this.enterPercentages(252, 234, 455)
         const invalidPercentageError: string = await this.page.textContent('app-percent-condition app-error-text >> nth=0')
-        const invalidRangeError: string = await this.page.textContent('app-percent-condition app-error-text >> nth=1')
         expect(invalidPercentageError.trim()).toEqual('Invalid percentage')
-        expect(invalidRangeError.trim()).toEqual('Invalid percentage range')
     }
 
     async advanceSettingsErrorMessages() {
