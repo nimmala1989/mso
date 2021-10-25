@@ -4,6 +4,7 @@ import { Common } from "./common.po";
 import { Comment } from './comment.po'
 import got from 'got';
 
+
 export class EditOrView {
 
     page: Page
@@ -20,7 +21,7 @@ export class EditOrView {
         expect(await form.ruleName.getValue()).toEqual(expectedName)
     }
 
-    async updateName(name: string = `Testing - ${CommonActions.randomString(4)}`) {
+    async udpateName(name: string = `Testing - ${CommonActions.randomString(4)}`) {
         const form = new Common(this.page, 'read');
         await form.instantiate()
         await form.ruleName.enter(name)
