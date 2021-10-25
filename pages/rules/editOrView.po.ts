@@ -21,7 +21,7 @@ export class EditOrView {
         expect(await form.ruleName.getValue()).toEqual(expectedName)
     }
 
-    async udpateName(name: string = `Testing - ${CommonActions.randomString(4)}`) {
+    async updateName(name: string = `Testing - ${CommonActions.randomString(4)}`) {
         const form = new Common(this.page, 'read');
         await form.instantiate()
         await form.ruleName.enter(name)
