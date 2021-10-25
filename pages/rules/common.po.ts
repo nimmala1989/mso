@@ -11,6 +11,7 @@ export class Common {
         ruleGroup: 'Defect Inspect' | 'Dummy Inspection' | 'Yield Inspection',
         description: string
     }
+    mode: string
 
     constructor(page: Page, mode: 'create' | 'read') {
         this.page = page
@@ -20,25 +21,24 @@ export class Common {
             ruleGroup: 'Defect Inspect',
             description: ''
         }
-        if (mode == 'create') {
-            this.form = this.page.waitForSelector('mat-dialog-container #rule-form-container')
-        } else {
-            this.form = this.page.waitForSelector('#rule-form-container')
-        }
+        this.mode = mode
     }
 
     async instantiate() {
-        this.form = await this.form
+        if (this.mode == 'create') {
+            this.form = await this.page.waitForSelector('mat-dialog-container #rule-form-container')
+        } else {
+            this.form = await this.page.waitForSelector('#rule-form-container')
+        }
     }
 
     get ruleName() {
         const self = this
-        let el = this.form.waitForSelector('id=smpRuleName');
-
         return {
             async enter(name: string) {
                 self.newRuleData.name = name;
-                await (await el).fill(name);
+                let el = await self.form.waitForSelector('id=smpRuleName');
+                await el.fill(name);
             },
             async getValue() {
                 return self.form.$eval('id=smpRuleName', (el: { [x: string]: any }) => el["value"]);
@@ -227,7 +227,7 @@ export class Common {
             async selectTool(optionToSelect: string) {
                 const dropdown = await self.page.waitForSelector('[id="toolEachNa"] .mat-select-value')
                 await dropdown.click();
-                
+
                 await (await self.page.$(`[id="toolEachNa-panel"] mat-option:has-text("${optionToSelect}")`)).click();
             }
         }
