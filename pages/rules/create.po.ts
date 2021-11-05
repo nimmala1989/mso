@@ -159,7 +159,7 @@ export class Create {
         await this.selectProdValue('Each')
         await this.addProcessLinks('STEP1000093143', 'STEP1000099908')
         // await this.page.pause()
-        await this.selectGlobalTagConditions()
+        // await this.selectGlobalTagConditions()
         await this.submit()
         await this.comment.enterComment("created rule with automation script");
         await this.comment.submit();
