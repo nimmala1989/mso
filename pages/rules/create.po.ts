@@ -70,12 +70,12 @@ export class Create {
 
     async selectDecision(value: "All" | "Tag" | "Skip") {
         await this.form.decision.select()
-        await this.form.decision.selectDecisionType('All')
+        await this.form.decision.selectDecisionType(value)
     }
 
     async selectProdValue(value: string | 'EACH') {
         await this.form.counter.selectSettings('Prod')
-        await this.form.counter.selectProd('EACH');
+        await this.form.counter.selectProd(value.toUpperCase());
     }
 
     async selectToolsSettingAndValue(value: string | 'EACH') {
@@ -94,6 +94,13 @@ export class Create {
         await this.form.processLinks.clickOk()
     }
 
+    async selectGlobalTagConditions() {
+        const contextText = await this.form.globalTagConditions.contextText()
+        await contextText.unselectCheckbox()
+        const status = await contextText.getStatus()
+        console.log(status)
+    }
+
     async percentageRule() {
         await this.instantiate()
         await this.enterName()
@@ -103,7 +110,7 @@ export class Create {
         await this.enterAdvancedSettings(2, 4, 23)
         await this.enterExpirationDates(new Date('2/17/2022'), new Date('3/17/2022'))
         await this.selectDecision('All')
-        await this.selectProdValue('Each')
+        await this.selectProdValue('EACH')
         await this.submit()
         await this.comment.enterComment("created rule with automation script");
         await this.comment.submit();
@@ -151,6 +158,8 @@ export class Create {
         await this.selectDecision('All')
         await this.selectProdValue('Each')
         await this.addProcessLinks('STEP1000093143', 'STEP1000099908')
+        // await this.page.pause()
+        await this.selectGlobalTagConditions()
         await this.submit()
         await this.comment.enterComment("created rule with automation script");
         await this.comment.submit();
