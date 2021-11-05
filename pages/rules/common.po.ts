@@ -39,6 +39,7 @@ export class Common {
                 self.newRuleData.name = name;
                 let el = await self.form.waitForSelector('id=smpRuleName');
                 await el.fill(name);
+                await self.page.keyboard.press('Tab');
             },
             async getValue() {
                 return self.form.$eval('id=smpRuleName', (el: { [x: string]: any }) => el["value"]);
@@ -87,6 +88,9 @@ export class Common {
                 await (await el).fill('');
                 await el.fill(value);
             },
+            async getValue() {
+                return self.form.$eval('id=smpRuleCondition', (el: { [x: string]: any }) => el["value"]);
+            },
             async enterLot(value: string) {
                 const el = await self.form.waitForSelector('id=smpRuleConditionLotEvent');
                 await (await el).fill('');
@@ -118,6 +122,9 @@ export class Common {
             async enter(value: string) {
                 await (await el).fill('');
                 await (await el).fill(value);
+            },
+            async getValue() {
+                return self.form.$eval('id=smpRuleDesiredRangeMin', (el: { [x: string]: any }) => el["value"]);
             }
         }
     }
@@ -129,6 +136,9 @@ export class Common {
             async enter(value: string) {
                 await (await el).fill('');
                 await (await el).fill(value);
+            },
+            async getValue() {
+                return self.form.$eval('id=smpRuleConditionMax', (el: { [x: string]: any }) => el["value"]);
             }
         }
     }
@@ -141,19 +151,28 @@ export class Common {
                 await (await el).check();
             },
             async enterMinimumConsecutiveSkips(value: string) {
-                const el = await self.form.waitForSelector('span:has-text("Minimum consecutive skips") + div input ')
+                const el = await self.form.waitForSelector('span:has-text("Minimum consecutive skips") + div input')
                 await el.fill('');
                 await el.fill(value);
+            },
+            async getValueForMinimumConsecutiveSkips() {
+                return self.form.$eval('span:has-text("Minimum consecutive skips") + div input', (el: { [x: string]: any }) => el["value"]);
             },
             async enterMaximumConsecutiveSkips(value: string) {
-                const el = await self.form.waitForSelector('span:has-text("Maximum consecutive skips") + div input ')
+                const el = await self.form.waitForSelector('span:has-text("Maximum consecutive skips") + div input')
                 await el.fill('');
                 await el.fill(value);
             },
+            async getValueForMaximumConsecutiveSkips() {
+                return self.form.$eval('span:has-text("Maximum consecutive skips") + div input', (el: { [x: string]: any }) => el["value"]);
+            },
             async enterNumberOfLogsForHistory(value: string) {
-                const el = await self.form.waitForSelector('span:has-text("Number of lots for history") + div input ')
+                const el = await self.form.waitForSelector('span:has-text("Number of lots for history") + div input')
                 await el.fill('');
                 await el.fill(value);
+            },
+            async getValueForNumberOfLogsForHistory() {
+                return self.form.$eval('span:has-text("Number of lots for history") + div input', (el: { [x: string]: any }) => el["value"]);
             },
         }
     }
@@ -197,11 +216,11 @@ export class Common {
                 await (await self.form.waitForSelector('[formname="processLinks"] i.fa-plus-square')).click();
             },
             async selectMainProcess(value: string) {
-                await (await self.form.waitForSelector('id=fromMsoProcess')).click()
+                await (await self.page.waitForSelector('id=fromMsoProcess')).click()
                 await self.page.click(`#fromMsoProcess-panel mat-option span:has-text("${value}")`)
             },
             async selectSamplingProcess(value: string) {
-                await (await self.form.waitForSelector('id=toMsoProcess')).click()
+                await (await self.page.waitForSelector('id=toMsoProcess')).click()
                 await self.page.click(`#toMsoProcess-panel mat-option span:has-text("${value}")`)
             },
             async clickOk() {
@@ -222,7 +241,8 @@ export class Common {
             async selectProd(optionToSelect: string) {
                 const prodDropDown = await self.page.waitForSelector('[id="prdEachNa"] .mat-select-value')
                 await prodDropDown.click();
-                await (await self.page.$(`[id="prdEachNa-panel"] mat-option[value="${optionToSelect}"]`)).click();
+                const option = await self.page.$(`[id="prdEachNa-panel"] mat-option[value="${optionToSelect}"]`)
+                await option.click();
             },
             async selectTool(optionToSelect: string) {
                 const dropdown = await self.page.waitForSelector('[id="toolEachNa"] .mat-select-value')
@@ -230,6 +250,53 @@ export class Common {
 
                 await (await self.page.$(`[id="toolEachNa-panel"] mat-option:has-text("${optionToSelect}")`)).click();
             }
+        }
+    }
+
+    get globalTagConditions() {
+        const self = this;
+        return {
+            async contextText() {
+                let checkbox = await self.form.waitForSelector('text=Context Test inherited >> div mat-checkbox input')
+                return {
+                    async selectCheckbox() {
+                        await checkbox.check()
+                    },
+                    async unselectCheckbox() {
+                        await checkbox.uncheck({force: true})
+                    },
+                    async getStatus() {
+                        const status = await checkbox.isChecked()
+                        if (status) {
+                            return 'checked'
+                        } else {
+                            return 'unchecked'
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    get tagConditions() {
+        const self = this;
+        return {
+
+        }
+    }
+
+    get dependentProcess() {
+        const self = this;
+        return {
+
+        }
+    }
+
+    get processSubs() {
+        const self = this;
+        return {
+
         }
     }
 

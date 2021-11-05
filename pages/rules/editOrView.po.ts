@@ -75,4 +75,60 @@ export class EditOrView {
         }).json()
         return data;
     }
+
+    async updateMeasurePercent(measure: number, min: number, max: number) {
+        const form = new Common(this.page, 'read');
+        await form.instantiate()
+        await form.measure.enter(measure.toString());
+        await form.betweenMin.enter(min.toString());
+        await form.betweenMax.enter(max.toString());
+    }
+
+    async verifyMeasurePercent(measure: number, min: number, max: number) {
+        const form = new Common(this.page, 'read');
+        await form.instantiate()
+        let measureValue = await form.measure.getValue();
+        let minValue = await form.betweenMin.getValue();
+        let maxValue = await form.betweenMax.getValue();
+        expect(measureValue).toEqual(measure.toString())
+        expect(minValue).toEqual(min.toString())
+        expect(maxValue).toEqual(max.toString())
+    }
+
+    async updateAdvancedSettings(min: number, max: number, lot: number) {
+        const form = new Common(this.page, 'read');
+        await form.instantiate()
+        await form.advancedSettings.enterMinimumConsecutiveSkips(min.toString());
+        await form.advancedSettings.enterMaximumConsecutiveSkips(max.toString());
+        await form.advancedSettings.enterNumberOfLogsForHistory(lot.toString());
+    }
+
+    async verifyAdvancedSettings(min: number, max: number, lot: number) {
+        const form = new Common(this.page, 'read');
+        await form.instantiate()
+        let minValue = await form.advancedSettings.getValueForMinimumConsecutiveSkips();
+        let maxValue = await form.advancedSettings.getValueForMaximumConsecutiveSkips();
+        let lotValue = await form.advancedSettings.getValueForNumberOfLogsForHistory();
+        expect(minValue).toEqual(min.toString())
+        expect(maxValue).toEqual(max.toString())
+        expect(lotValue).toEqual(lot.toString())
+
+    }
+
+    async updateCounterSettings(from: string, to: string, value: string) {
+        const form = new Common(this.page, 'read');
+        await form.instantiate()
+        await form.counter.selectSettings(from)
+        await form.counter.selectSettings(to)
+        await form.counter.selectTool(value);
+    }
+
+    async updateProcessingLinkSettings(main: string, sampling: string) {
+        const form = new Common(this.page, 'read');
+        await form.instantiate()
+        await form.processLinks.open()
+        await form.processLinks.selectMainProcess(main)
+        await form.processLinks.selectSamplingProcess(sampling)
+        await form.processLinks.clickOk()
+    }
 }
