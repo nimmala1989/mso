@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test"
+import { expect, Page } from "@playwright/test"
 import { Action } from "../../utilities/actions"
 
 export class Common {
@@ -253,50 +253,65 @@ export class Common {
         }
     }
 
-    get globalTagConditions() {
+    globalTagConditions(checkbox: "Context Test" | "Parameter Test" | "Tag Test All & All" | "Global Condition 1 (inactive)") {
         const self = this;
         return {
-            async contextText() {
-                let checkbox = await self.form.waitForSelector('text=Context Test inherited >> div mat-checkbox input')
-                return {
-                    async selectCheckbox() {
-                        await checkbox.check()
-                    },
-                    async unselectCheckbox() {
-                        await checkbox.uncheck({force: true})
-                    },
-                    async getStatus() {
-                        const status = await checkbox.isChecked()
-                        if (status) {
-                            return 'checked'
-                        } else {
-                            return 'unchecked'
-                        }
-                    }
-                }
+            async selectCheckbox() {
+                let checkboxSelector = await self.form.waitForSelector(`text=${checkbox} inherited >> div mat-checkbox input`)
+                await checkboxSelector.check()
+                const status = await checkboxSelector.isChecked()
+                expect(status).toBe(true)
+            },
+            async unselectCheckbox() {
+                let checkboxSelector = await self.form.waitForSelector(`text=${checkbox} inherited >> div mat-checkbox input`)
+                await checkboxSelector.uncheck({ force: true })
+                const status = await checkboxSelector.isChecked()
+                expect(status).toBe(false)
             }
-
         }
     }
 
-    get tagConditions() {
+    tagConditions(condition: string) {
         const self = this;
         return {
-
+            async add() {
+                await (await self.form.waitForSelector('app-explicit-tags .icon-fps')).click();
+                await self.page.click('app-select-search mat-select')
+                await self.page.click(`[id="tag2-panel"] mat-option span:has-text("${condition}")`)
+                await (await self.page.$('button:has-text("Ok")')).click();
+            },
+            async delete() {
+                await self.page.click(`text=${condition} Disassociate Tag Condition >> i`);
+            }
         }
     }
 
     get dependentProcess() {
         const self = this;
+        const page = self.page;
         return {
-
+            async add(samplingProcess: string, dependentProcess: string) {
+                await (await self.form.waitForSelector('app-dependent-links .fa-plus-square')).click();
+                await page.click('text=Sampling Process : Sampling Process >> mat-select[role="combobox"] span');
+                await page.click(`mat-option[role="option"] >> text=${samplingProcess}`);
+                await page.click('text=Dependent ProcessHelp me find one... >> span');
+                await page.click(`div[role="listbox"] >> text=${dependentProcess}`);
+                await page.click('button:has-text("Ok")');
+                
+            }
         }
     }
 
     get processSubs() {
         const self = this;
+        const page = self.page;
         return {
-
+            async add(samplingProcess: string) {
+                await (await self.form.waitForSelector('app-process-view[formname="processSubs"] .fa-plus-square')).click();
+                await page.click('text=Sampling ProcessHelp me find one... >> span');
+                await page.click(`div[role="listbox"] >> text=${samplingProcess}`);
+                await page.click('button:has-text("Add")');
+            }
         }
     }
 

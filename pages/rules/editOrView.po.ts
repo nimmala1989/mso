@@ -131,4 +131,32 @@ export class EditOrView {
         await form.processLinks.selectSamplingProcess(sampling)
         await form.processLinks.clickOk()
     }
+
+    async updateGlobalTabCondition() {
+        const form = new Common(this.page, 'read');
+        await form.instantiate()
+        await form.globalTagConditions('Context Test').unselectCheckbox()
+        await form.globalTagConditions('Global Condition 1 (inactive)').unselectCheckbox()
+        await form.globalTagConditions('Parameter Test').unselectCheckbox()
+        await form.globalTagConditions('Tag Test All & All').unselectCheckbox()
+    }
+
+    async updateTagCondition(existingCondition: string, conditionToAdd: string) {
+        const form = new Common(this.page, 'read');
+        await form.instantiate()
+        await form.tagConditions(existingCondition).delete()
+        await form.tagConditions(conditionToAdd).add()
+    }
+
+    async updateDependentProcess(samplingProcess: string, dependentProcess: string) {
+        const form = new Common(this.page, 'read');
+        await form.instantiate()
+        await form.dependentProcess.add(samplingProcess, dependentProcess)
+    }
+
+    async updateProcessSubs(samplingProcess: string) {
+        const form = new Common(this.page, 'read');
+        await form.instantiate()
+        await form.processSubs.add(samplingProcess)
+    }
 }
