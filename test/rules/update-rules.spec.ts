@@ -31,7 +31,7 @@ test.describe.only("On Rules Page", async () => {
         await login.selectClient('FAB2')
         await rules.waitForPageLoad()
         await rules.openRulesPopup()
-        await create.processLink()
+        await create.ruleWithAllFields()
         await table.selectByName(create.data.name)
         await editOrView.verifyName(create.data.name)
     })
@@ -76,7 +76,35 @@ test.describe.only("On Rules Page", async () => {
         await table.selectByName(create.data.name)
     })
 
-    test.afterAll(async () => {
+    test('Update Global Tag conditions and Verify', async () => {
+        await editOrView.updateGlobalTabCondition()
+        await editOrView.clickSave()
+        await editOrView.commentAndSave()
+        await table.selectByName(create.data.name)
+    })
+
+    test('Update Tag conditions and Verify', async () => {
+        await editOrView.updateTagCondition('0000test1', 'Block Rockets')
+        await editOrView.clickSave()
+        await editOrView.commentAndSave()
+        await table.selectByName(create.data.name)
+    })
+
+    test('Update Dependent Processes and Verify', async () => {
+        await editOrView.updateDependentProcess('STEP1000099908', 'STEP1000093143')
+        await editOrView.clickSave()
+        await editOrView.commentAndSave()
+        await table.selectByName(create.data.name)
+    })
+
+    test('Update Process Subs and Verify', async () => {
+        await editOrView.updateProcessSubs('STEP1000099908')
+        await editOrView.clickSave()
+        await editOrView.commentAndSave()
+        await table.selectByName(create.data.name)
+    })
+
+    test.afterEach(async () => {
         await editOrView.deleteRulesCreateByAutomation(authorizationToken)
     })
 })
