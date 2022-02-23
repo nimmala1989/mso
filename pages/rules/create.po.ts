@@ -58,13 +58,11 @@ export class Create {
         await this.form.advancedSettings.enterNumberOfLogsForHistory(noOfLogs.toString())
     }
 
-    async enterExpirationDates(warn: Date, expire: Date | undefined) {
-        let warnDateToString = `${warn.getMonth() + 1}/${warn.getDate()}/${warn.getFullYear()}`
+    async enterExpirationDates(warn: string, expire: string | undefined) {
         await this.form.expiration.select()
-        await this.form.expiration.enterWarn(warnDateToString)
+        await this.form.expiration.enterWarn(warn)
         if (expire) {
-            let expireDateToString = `${expire.getMonth() + 1}/${expire.getDate()}/${expire.getFullYear()}`
-            await this.form.expiration.enterExpire(expireDateToString)
+            await this.form.expiration.enterExpire(expire)
         }
     }
 
@@ -119,7 +117,9 @@ export class Create {
         await this.enterDescription()
         await this.enterPercentages(25, 4, 50)
         await this.enterAdvancedSettings(2, 4, 23)
-        await this.enterExpirationDates(new Date('2/17/2022'), new Date('3/17/2022'))
+        let warnDate = CommonActions.getFutureDate("Days", 5)
+        let expirationDate = CommonActions.getFutureDate("Months", 2)
+        await this.enterExpirationDates(warnDate, expirationDate)
         await this.selectDecision('All')
         await this.selectProdValue('EACH')
         await this.submit()
@@ -134,7 +134,9 @@ export class Create {
         await this.selectRuleGroup('Defect Inspect')
         await this.enterDescription()
         await this.enterEvent(5, 'test_event_2')
-        await this.enterExpirationDates(new Date('2/17/2022'), new Date('3/17/2022'))
+        let warnDate = CommonActions.getFutureDate("Days", 5)
+        let expirationDate = CommonActions.getFutureDate("Months", 2)
+        await this.enterExpirationDates(warnDate, expirationDate)
         await this.selectDecision('All')
         await this.selectToolsSettingAndValue('BACK-T007')
         await this.submit()
@@ -149,7 +151,9 @@ export class Create {
         await this.selectRuleGroup('Defect Inspect')
         await this.enterDescription()
         await this.enterTime(5)
-        await this.enterExpirationDates(new Date('2/17/2022'), new Date('3/17/2022'))
+        let warnDate = CommonActions.getFutureDate("Days", 5)
+        let expirationDate = CommonActions.getFutureDate("Months", 2)
+        await this.enterExpirationDates(warnDate, expirationDate)
         await this.selectDecision('All')
         await this.selectProdValue('Each')
         await this.submit()
@@ -165,7 +169,9 @@ export class Create {
         await this.enterDescription()
         await this.enterPercentages(25, 4, 50)
         await this.enterAdvancedSettings(2, 4, 23)
-        await this.enterExpirationDates(new Date('2/17/2022'), new Date('3/17/2022'))
+        let warnDate = CommonActions.getFutureDate("Days", 5)
+        let expirationDate = CommonActions.getFutureDate("Months", 2)
+        await this.enterExpirationDates(warnDate, expirationDate)
         await this.selectDecision('All')
         await this.selectProdValue('Each')
         await this.addProcessLinks('STEP1000093143', 'STEP1000099908')
@@ -182,7 +188,9 @@ export class Create {
         await this.enterDescription()
         await this.enterPercentages(25, 4, 50)
         await this.enterAdvancedSettings(2, 4, 23)
-        await this.enterExpirationDates(new Date('2/17/2022'), new Date('3/17/2022'))
+        let warnDate = CommonActions.getFutureDate("Days", 5)
+        let expirationDate = CommonActions.getFutureDate("Months", 2)
+        await this.enterExpirationDates(warnDate, expirationDate)
         await this.selectDecision('All')
         await this.selectProdValue('Each')
         await this.addProcessLinks('STEP1000093143', 'STEP1000099908')
@@ -252,19 +260,21 @@ export class Create {
         await this.enterDescription()
         await this.enterPercentages(25, 4, 50)
         await this.enterAdvancedSettings(2, 4, 23)
+        let warnDate = CommonActions.getFutureDate("Days", 5)
+        let expirationDate = CommonActions.getFutureDate("Months", -2)
         return {
             async verifyEmptyExpireDateErrorMessage() {
-                await self.enterExpirationDates(new Date('2/17/2022'), undefined)
+                await self.enterExpirationDates(warnDate, undefined)
                 const errorMessage = await self.page.textContent('span.error-text span')
                 expect(errorMessage.trim()).toEqual('If a warning date is entered an expiration date is required')
             },
             async verifyWarningAndExpirationDateCannotBeSame() {
-                await self.enterExpirationDates(new Date('2/17/2022'), new Date('2/17/2022'))
+                await self.enterExpirationDates(warnDate, warnDate)
                 const errorMessage = await self.page.textContent('span.error-text span')
                 expect(errorMessage.trim()).toEqual('Warning date must be before the expiration date')
             },
             async verifyWarningDateMustBeBeforeExpirationDate() {
-                await self.enterExpirationDates(new Date('2/17/2022'), new Date('2/10/2022'))
+                await self.enterExpirationDates(warnDate, expirationDate)
                 const errorMessage = await self.page.textContent('span.error-text span')
                 expect(errorMessage.trim()).toEqual('Warning date must be before the expiration date')
             }

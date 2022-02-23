@@ -53,30 +53,30 @@ test.describe("On Rules Page", async () => {
 
     test("Perform bulk edit and verify all the rules are updated", async () => {
         await rules.openRulesPopup()
-        await create.percentageRule()
-        await table.selectByName(create.data.name)
-        await editOrView.verifyName(create.data.name)
+        // await create.percentageRule()
+        // await table.selectByName(create.data.name)
+        // await editOrView.verifyName(create.data.name)
     })
 
     test("Perform bulk delete and verify all the rules are delete", async () => {
         await rules.openRulesPopup()
-        await create.eventRule()
-        await table.selectByName(create.data.name)
-        await editOrView.verifyName(create.data.name)
+        // await create.eventRule()
+        // await table.selectByName(create.data.name)
+        // await editOrView.verifyName(create.data.name)
     })
 
     test("Perform bulk disable and verify all the rules are disabled", async () => {
         await rules.openRulesPopup()
-        await create.timeRule()
-        await table.selectByName(create.data.name)
-        await editOrView.verifyName(create.data.name)
+        // await create.timeRule()
+        // await table.selectByName(create.data.name)
+        // await editOrView.verifyName(create.data.name)
     })
 
     test("Perform bulk enable and verify all the rules are enabled", async () => {
         await rules.openRulesPopup()
-        await create.processLink()
-        await table.selectByName(create.data.name)
-        await editOrView.verifyName(create.data.name)
+        // await create.processLink()
+        // await table.selectByName(create.data.name)
+        // await editOrView.verifyName(create.data.name)
     })
 
     test.afterAll(async () => {
