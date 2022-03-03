@@ -12,6 +12,7 @@ export class Comment {
     }
 
     async submit() {
-        await this.page.click('button:has-text("Submit")');
+        await this.page.click('app-modal-footer .btn-primary');
+        await this.page.waitForSelector('app-transaction-entry', { state: 'hidden'})
     }
 }
