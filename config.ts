@@ -5,7 +5,6 @@ import { PlaywrightTestConfig, devices } from '@playwright/test';
 const config: PlaywrightTestConfig = {
 
     name: 'Chrome Stable',
-
     
     // timeout options
     timeout: 120000,
@@ -28,7 +27,7 @@ const config: PlaywrightTestConfig = {
 
     use: {
         // Browser options
-        headless: false,
+        headless: true,
         browserName: 'chromium',
         channel: 'chrome',
         // Artifacts

@@ -6,7 +6,7 @@ import { Create } from '../../pages/rules/create.po';
 import { EditOrView } from '../../pages/rules/editOrView.po';
 import { Table } from '../../pages/rules/table.po';
 
-test.describe.only("On Rules Page", async () => {
+test.describe("On Rules Page", async () => {
     let login: Login
     let rules: Rules
     let create: Create

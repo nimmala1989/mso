@@ -3,7 +3,7 @@ import { CommonActions } from "../../utilities/common";
 import { Common } from "./common.po";
 import { Comment } from './comment.po';
 import { Endpoints } from '../../config/setup';
-import got from 'got';
+import got from "got";
 
 
 export class EditOrView {

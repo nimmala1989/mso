@@ -2,7 +2,6 @@
   "name": "playwright-test",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "pretest": "npx playwright install",
     "test": "npx playwright test --config=config.ts"
@@ -10,16 +9,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/luxon": "^1.27.1",
-    "date-and-time": "^2.1.2",
+    "@types/got": "^9.6.12",
+    "@types/luxon": "^2.3.0",
+    "date-and-time": "^2.2.1",
     "got": "^11.8.2",
-    "junit-cli-report-viewer": "^1.4.1",
-    "luxon": "^1.28.0",
-    "typescript": "^4.3.5",
-    "wdio-junit-to-html": "^3.1.2"
+    "junit-cli-report-viewer": "^1.5.2",
+    "luxon": "^2.3.1",
+    "typescript": "^4.6.2",
+    "wdio-junit-to-html": "^3.0.4"
   },
   "devDependencies": {
-    "@playwright/test": "^1.14.1",
+    "@playwright/test": "^1.19.2",
     "@types/date-and-time": "^0.13.0"
   }
 }
