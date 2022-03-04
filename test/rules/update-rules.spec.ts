@@ -20,8 +20,8 @@ test.describe("On Rules Page", async () => {
         create = new Create(page);
         editOrView = new EditOrView(page);
         table = new Table(page);
-        page.on('request', request => {
-            let allHeaders = request.headers()
+        page.on('request', async request => {
+            let allHeaders = await request.allHeaders()
             if (allHeaders.authorization && allHeaders.authorization != 'Bearer null') {
                 authorizationToken = allHeaders.authorization
             }

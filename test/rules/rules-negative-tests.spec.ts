@@ -6,7 +6,7 @@ import { Create } from '../../pages/rules/create.po';
 import { EditOrView } from '../../pages/rules/editOrView.po';
 import { Table } from '../../pages/rules/table.po';
 
-test.describe("On Rules Page", async () => {
+test.describe.serial.only("On Rules Page", async () => {
     let login: Login
     let rules: Rules
     let create: Create
@@ -20,8 +20,8 @@ test.describe("On Rules Page", async () => {
         create = new Create(page);
         editOrView = new EditOrView(page);
         table = new Table(page);
-        page.on('request', request => {
-            let allHeaders = request.headers()
+        page.on('request', async request => {
+            let allHeaders = await request.allHeaders()
             if (allHeaders.authorization && allHeaders.authorization != 'Bearer null') {
                 authorizationToken = allHeaders.authorization
             }
@@ -33,11 +33,9 @@ test.describe("On Rules Page", async () => {
     })
 
     test("Check that rules with duplicate name cannot be created", async () => {
+        const listOfExistingRules = await editOrView.getRules()
         await rules.openRulesPopup()
-        await create.percentageRule()
-        await table.selectByName(create.data.name)
-        await rules.openRulesPopup()
-        await create.verifyDuplicateRuleErrorMessage(create.data.name)
+        await create.verifyDuplicateRuleErrorMessage(listOfExistingRules[0].smpRuleName)
     })
 
     test("Check that error displayed with wrong percentage", async () => {

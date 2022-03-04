@@ -9,7 +9,6 @@ export class Table {
 
     async selectByName(ruleName: string) {
         const matDrawer = await this.page.isVisible('mat-drawer[mode="side"]')
-        console.log(matDrawer)
         if (!matDrawer) {
             await this.page.click(`td.mat-column-NAME span.rule-name:has-text("${ruleName}")`)
         }

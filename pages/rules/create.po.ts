@@ -217,8 +217,8 @@ export class Create {
         await this.selectRuleGroup('Defect Inspect')
         await this.enterDescription()
         await this.enterPercentages(252, 234, 455)
-        const invalidPercentageError: string = await this.page.textContent('app-percent-condition app-error-text >> nth=0')
-        expect(invalidPercentageError.trim()).toEqual('Invalid percentage')
+        const invalidPercentageError: string | null = await this.page.textContent('app-percent-condition app-error-text >> nth=0')
+        expect(invalidPercentageError!.trim()).toEqual('Invalid percentage')
     }
 
     async advanceSettingsErrorMessages() {
@@ -232,22 +232,22 @@ export class Create {
             async verifyMinimumCannotBeGreaterThanMaximum() {
                 await self.enterAdvancedSettings(23, 4, 1)
                 const errorMessage = await self.page.textContent('span.error-text span')
-                expect(errorMessage.trim()).toEqual('Minimum can not be greater than maximum')
+                expect(errorMessage!.trim()).toEqual('Minimum can not be greater than maximum')
             },
             async verifyPercentageMustBeBetweenMinAndMax() {
                 await self.enterAdvancedSettings(24, 33, 34)
                 const errorMessage = await self.page.textContent('span.error-text span')
-                expect(errorMessage.trim()).toEqual('Percent must be between min and max')
+                expect(errorMessage!.trim()).toEqual('Percent must be between min and max')
             },
             async verifyMaximumCannotBeGreaterThanLot() {
                 await self.enterAdvancedSettings(24, 33, 25)
                 const errorMessage = await self.page.textContent('span.error-text span')
-                expect(errorMessage.trim()).toEqual('Maximum can not be greater than lot history')
+                expect(errorMessage!.trim()).toEqual('Maximum can not be greater than lot history')
             },
             async verifyMinimumCannotBeGreaterThanLot() {
                 await self.enterAdvancedSettings(4, 8, 2)
                 const errorMessage = await self.page.textContent('span.error-text span')
-                expect(errorMessage.trim()).toEqual('Minimum can not be greater than lot history')
+                expect(errorMessage!.trim()).toEqual('Minimum can not be greater than lot history')
             }
         }
     }
@@ -266,17 +266,17 @@ export class Create {
             async verifyEmptyExpireDateErrorMessage() {
                 await self.enterExpirationDates(warnDate, undefined)
                 const errorMessage = await self.page.textContent('span.error-text span')
-                expect(errorMessage.trim()).toEqual('If a warning date is entered an expiration date is required')
+                expect(errorMessage!.trim()).toEqual('If a warning date is entered an expiration date is required')
             },
             async verifyWarningAndExpirationDateCannotBeSame() {
                 await self.enterExpirationDates(warnDate, warnDate)
                 const errorMessage = await self.page.textContent('span.error-text span')
-                expect(errorMessage.trim()).toEqual('Warning date must be before the expiration date')
+                expect(errorMessage!.trim()).toEqual('Warning date must be before the expiration date')
             },
             async verifyWarningDateMustBeBeforeExpirationDate() {
                 await self.enterExpirationDates(warnDate, expirationDate)
                 const errorMessage = await self.page.textContent('span.error-text span')
-                expect(errorMessage.trim()).toEqual('Warning date must be before the expiration date')
+                expect(errorMessage!.trim()).toEqual('Expiration date must be in the future')
             }
         }
     }
