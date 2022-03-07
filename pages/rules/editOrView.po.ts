@@ -50,7 +50,7 @@ export class EditOrView {
     }
 
     async getRules() {
-        const res = await got(`${Endpoints.baseUrl}${Endpoints.getrules()}`)
+        const res = await got(`${Endpoints.baseUrl}${Endpoints.getRules()}`)
         return JSON.parse(res.body);
     }
 

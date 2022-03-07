@@ -5,7 +5,7 @@ export const Endpoints = {
     deleteRule: function (id: string) {
         return `/mso18/api/rules/${id}`
     },
-    getrules: function (client: string = 'FAB2') {
+    getRules: function (client: string = 'FAB2') {
         return `/mso18/api/rules/facility/${client}`
     },
     createRules: function() {

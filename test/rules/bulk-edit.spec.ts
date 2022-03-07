@@ -6,6 +6,7 @@ import { Create } from '../../pages/rules/create.po';
 import { EditOrView } from '../../pages/rules/editOrView.po';
 import { Table } from '../../pages/rules/table.po';
 import { Post } from "../../pages/apis/post"
+import { BulkActions } from "../../pages/rules/bulkAction.po"
 
 test.describe("On Rules Page", async () => {
     let current_page: Page
@@ -15,6 +16,7 @@ test.describe("On Rules Page", async () => {
     let table: Table
     let authorizationToken: string
     let post: Post
+    let bulkActions: BulkActions
     let rulesData: { name: string, id: string }[] = []
 
     test.beforeEach(async ({ page }) => {
@@ -24,6 +26,7 @@ test.describe("On Rules Page", async () => {
         editOrView = new EditOrView(page);
         table = new Table(page);
         post = new Post()
+        bulkActions = new BulkActions(page)
         page.on('request', async request => {
             let allHeaders = await request.allHeaders()
             if (allHeaders.authorization && allHeaders.authorization != 'Bearer null') {
@@ -49,19 +52,22 @@ test.describe("On Rules Page", async () => {
     })
 
     test.only("Perform bulk edit and verify all the rules are updated", async () => {
-        
+        await bulkActions.selectEdit()
+        await bulkActions.editExpirationDate()
+        await bulkActions.clickSave()
+        await bulkActions.commentAndSave()
     })
 
     test("Perform bulk delete and verify all the rules are delete", async () => {
-        
+
     })
 
     test("Perform bulk disable and verify all the rules are disabled", async () => {
-        
+
     })
 
     test("Perform bulk enable and verify all the rules are enabled", async () => {
-        
+
     })
 
     test.afterAll(async () => {
