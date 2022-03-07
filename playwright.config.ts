@@ -7,7 +7,7 @@ const config: PlaywrightTestConfig = {
     name: 'Chrome Stable',
     
     // timeout options
-    timeout: 60000,
+    timeout: 120000,
     globalTimeout: 3000000,
 
     // Number of times to execution tests if failed
@@ -27,7 +27,7 @@ const config: PlaywrightTestConfig = {
 
     use: {
         // Browser options
-        headless: true,
+        headless: false,
         browserName: 'chromium',
         channel: 'chrome',
         // Artifacts

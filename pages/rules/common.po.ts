@@ -42,6 +42,7 @@ export class Common {
                 await self.page.keyboard.press('Tab');
             },
             async getValue() {
+                await self.form.waitForSelector('id=smpRuleName');
                 return self.form.$eval('id=smpRuleName', (el: { [x: string]: any }) => el["value"]);
             }
         }
