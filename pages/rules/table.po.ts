@@ -15,6 +15,10 @@ export class Table {
         await this.page.waitForSelector('mat-drawer[mode="side"]')
     }
 
+    async selectCheckboxByName(ruleName: string) {
+        await this.page.click(`td.mat-column-NAME:has-text("${ruleName}") mat-checkbox`)
+    }
+
     async waitForRuleToDisappear(ruleName: string) {
         await this.page.waitForSelector(`td.mat-column-NAME span.rule-name:has-text("${ruleName}")`, { state: "hidden" })
     }

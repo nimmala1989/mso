@@ -1,0 +1,157 @@
+{
+    "facility": "FAB2",
+    "expirationCheckbox": true,
+    "ruleGroup": "DEFECT",
+    "smpRuleId": null,
+    "smpRuleType": "PERCENT",
+    "smpRuleName": "testing - loki",
+    "smpRuleDescription": "sdfdsf",
+    "expiryWarnInst": "2022-03-25T04:00:00.000Z",
+    "expiryDeactivateInst": "2022-03-30T04:00:00.000Z",
+    "externalWrite": false,
+    "decisionsToSend": "ALL",
+    "smpRuleCondition": 3,
+    "smpRuleConditionMin": "2",
+    "smpRuleConditionMax": "3",
+    "smpRuleConditionHours": null,
+    "smpRuleConditionCounter": null,
+    "smpRuleConditionPercentSettings": {
+        "riskWarn": "3",
+        "skipWarn": "3",
+        "riskThreshold": "3",
+        "skipThreshold": "3",
+        "minSkip": "25",
+        "maxSkip": "40",
+        "lotHistory": "100",
+        "advancedCheckbox": true
+    },
+    "lotParmName": null,
+    "lotParmValue": null,
+    "prdMsoGroupEachNa": "NA",
+    "prdEachNa": "EACH",
+    "routeMsoGroupEachNa": "NA",
+    "routeEachNa": "NA",
+    "planPriorityNa": "NA",
+    "lotGroupEachNa": "NA",
+    "lotMsoGroupEachNa": "NA",
+    "toolEachNa": "NA",
+    "toolMsoGroupEachNa": "NA",
+    "chamberEachNa": "NA",
+    "isActive": false,
+    "tagConditions": [
+        {
+            "facility": null,
+            "isActive": false,
+            "smpRuleIdNa": "NA",
+            "toMsoProcessNa": "NA",
+            "tagConditionId": 1743,
+            "tagConditionName": "Global Condition 1",
+            "isInherited": true
+        },
+        {
+            "facility": null,
+            "isActive": true,
+            "smpRuleIdNa": "NA",
+            "toMsoProcessNa": "NA",
+            "tagConditionId": 1323,
+            "tagConditionName": "Context Test",
+            "isInherited": true
+        },
+        {
+            "facility": null,
+            "isActive": true,
+            "smpRuleIdNa": "NA",
+            "toMsoProcessNa": "NA",
+            "tagConditionId": 4,
+            "tagConditionName": "Parameter Test",
+            "isInherited": true
+        },
+        {
+            "facility": null,
+            "isActive": true,
+            "smpRuleIdNa": "NA",
+            "toMsoProcessNa": "NA",
+            "tagConditionId": 827,
+            "tagConditionName": "Tag Test All & All",
+            "isInherited": true
+        },
+        {
+            "facility": "FAB2",
+            "isActive": true,
+            "smpRuleIdNa": "NA",
+            "toMsoProcessNa": "STEP1000099908",
+            "tagConditionId": 1564,
+            "tagConditionName": "testAddProcesses2",
+            "isInherited": true
+        },
+        {
+            "facility": "FAB2",
+            "isActive": false,
+            "smpRuleIdNa": "NA",
+            "toMsoProcessNa": "STEP1000099908",
+            "tagConditionId": 1383,
+            "tagConditionName": "Sree Test 11",
+            "isInherited": true
+        },
+        {
+            "facility": "FAB2",
+            "isActive": true,
+            "smpRuleIdNa": "NA",
+            "toMsoProcessNa": "STEP1000099908",
+            "tagConditionId": 1343,
+            "tagConditionName": "Sree Test 9012",
+            "isInherited": true
+        },
+        {
+            "facility": "FAB2",
+            "isActive": false,
+            "smpRuleIdNa": "NA",
+            "toMsoProcessNa": "STEP1000099908",
+            "tagConditionId": 1563,
+            "tagConditionName": "testAddProcess1",
+            "isInherited": true
+        },
+        {
+            "facility": "FAB2",
+            "isActive": true,
+            "smpRuleIdNa": "NA",
+            "toMsoProcessNa": "STEP1000099908",
+            "tagConditionId": 1004603,
+            "tagConditionName": "TestTagChange",
+            "isInherited": true
+        },
+        {
+            "facility": "FAB2",
+            "isActive": false,
+            "smpRuleIdNa": "NA",
+            "toMsoProcessNa": "STEP1000099908",
+            "tagConditionId": 1523,
+            "tagConditionName": "testAddProcess6",
+            "isInherited": true
+        }
+    ],
+    "mesActionComment": "sdfsdfsdfsdf",
+    "smpRuleConditionEvents": [],
+    "processLinks": [
+        {
+            "facility": "FAB2",
+            "smpRuleId": null,
+            "fromMsoProcessNa": "STEP1000093143",
+            "toMsoProcessNa": "STEP1000099908",
+            "tagParmName": "PARAMETER_2",
+            "tagParmValue": "PARAMETER_2",
+            "decisionOnSingleFrom": false
+        }
+    ],
+    "processSubs": [],
+    "decisionLinks": [],
+    "numLotsHistCutoffOvr": 100,
+    "maxConsecSkipsTagNextLotOvr": 40,
+    "minConsecutiveSkipAllowTagOvr": 25,
+    "maxConsecSkipWarn": 3,
+    "maxConsecSkipTrgMesAction": 3,
+    "maxLarWarn": 3,
+    "maxLarTriggerMesAction": 3,
+    "writeDecisionToExtlSource": false,
+    "disassociatedTagConditions": []
+}

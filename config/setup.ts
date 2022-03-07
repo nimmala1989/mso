@@ -7,5 +7,8 @@ export const Endpoints = {
     },
     getrules: function (client: string = 'FAB2') {
         return `/mso18/api/rules/facility/${client}`
+    },
+    createRules: function() {
+        return `/mso18/api/rules`
     }
 }

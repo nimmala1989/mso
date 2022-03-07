@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "pretest": "npx playwright install",
-    "test": "npx playwright test --config=config.ts"
+    "test": "npx playwright test --config=playwright.config.ts"
   },
   "author": "",
   "license": "ISC",
