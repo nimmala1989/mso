@@ -5,7 +5,7 @@ import { Main } from './main.po';
 import { Table } from './table.po';
 
 
-export default {
+export {
     Context,
     Create,
     EditOrView,

@@ -4,7 +4,6 @@ import { CommonActions } from "../../utilities/common";
 import { Context } from "./context.po";
 
 const actions: Action = new Action()
-const commonActions: CommonActions = new CommonActions();
 
 export class Create {
 
@@ -26,7 +25,7 @@ export class Create {
     }
 
     async enterName(name: string) {
-        return this.page.fill('#tagName', `${name} - ${commonActions.randomString(4)}`);
+        return this.page.fill('#tagName', `${name} - ${CommonActions.randomString(4)}`);
     }
     
     async selectType(valueToSelect: string) {

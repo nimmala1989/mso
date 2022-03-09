@@ -1,5 +1,5 @@
-import { ElementHandle, expect, Page } from "@playwright/test"
-import { Action } from '../../utilities/actions'
+import { expect, Page } from "@playwright/test";
+import { Action } from '../../utilities/actions';
 import { CommonActions } from "../../utilities/common";
 
 const commonActions = new CommonActions();

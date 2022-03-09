@@ -10,5 +10,8 @@ export const Endpoints = {
     },
     createRules: function() {
         return `/mso18/api/rules`
+    },
+    createTagConditions: function() {
+        return `/mso18/api/tagconditions`
     }
 }

@@ -1,0 +1,29 @@
+{
+    "facility": "FAB2",
+    "isActive": true,
+    "tagConditionId": null,
+    "tagConditionName": "testing - 23435",
+    "tagConditionType": "ALLOWED",
+    "ruleTagConditions": [
+        {
+            "facility": "FAB2",
+            "smpRuleIdNa": "NA",
+            "smpRuleNameNa": "NA",
+            "toMsoProcessNa": "NA"
+        }
+    ],
+    "tagConditionContexts": [
+        {
+            "lotGroupNa": "Dev Slow",
+            "lotMsoGroupNa": "ALL",
+            "lotParmName": "Testing - lot",
+            "lotParmValue": "Testing",
+            "planPriorityNa": "1",
+            "prdMsoGroupNa": "ALL",
+            "prdNa": "PRD100321280",
+            "routeMsoGroupNa": "ALL",
+            "routeNa": "ROUTE100321280",
+            "minQtyPerLot": 2
+        }
+    ]
+}
