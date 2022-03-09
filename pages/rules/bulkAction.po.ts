@@ -24,6 +24,7 @@ export class BulkActions {
     async selectDelete() {
         await this.openActions()
         await this.page.locator('[aria-labelledby="dropdownBulkMenu"] a:has-text("Delete")').click();
+        await this.page.locator('button:has-text("Delete")').click();
     }
 
     async selectDisable() {
@@ -37,22 +38,31 @@ export class BulkActions {
     }
 
     async editExpirationDate() {
-        const form = new Common(this.page, 'read');
-        await form.instantiate()
-        await form.expiration.select()
+        await this.page.locator('#expirationCheckbox .mat-checkbox-layout .mat-checkbox-inner-container').click();
         let warnDate = CommonActions.getFutureDate("Days", 10)
         let expirationDate = CommonActions.getFutureDate("Months", 10)
-        await form.expiration.enterExpire(expirationDate)
-        await form.expiration.enterExpire(warnDate)
+        await this.page.fill('[id="expiryWarnInst"]', warnDate)
+        await this.page.locator('[id="expiryDeactivateInst"]').fill(expirationDate)
         return {"warnDate": warnDate, "expirationDate": expirationDate}
     }
 
     async clickSave() {
-        await this.page.click('#saveButton');
+        await this.page.locator('button:has-text("Apply Changes")').click();
     }
 
     async commentAndSave(comment: string = "created rule with automation script") {
         await this.comment.enterComment(comment);
-        await this.comment.submit();
+        await this.page.locator('button:has-text("Submit")').click();
+    }
+
+    async commentAllAndSave(comment: string = "created rule with automation script") {
+        let commentBoxes = this.page.locator('section:has-text("Comment (required)") textarea');
+        await commentBoxes.nth(0).fill(comment)
+        await commentBoxes.nth(1).fill(comment)
+        await commentBoxes.nth(2).fill(comment)
+        let submitButton = this.page.locator('button:has-text("Submit")')
+        await submitButton.nth(2).click()
+        await submitButton.nth(1).click()
+        await submitButton.nth(0).click()
     }
 }

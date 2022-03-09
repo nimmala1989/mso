@@ -51,7 +51,7 @@ test.describe("On Rules Page", async () => {
         await table.selectCheckboxByName(rulesData[2].name)
     })
 
-    test.only("Perform bulk edit and verify all the rules are updated", async () => {
+    test("Perform bulk edit and verify all the rules are updated", async () => {
         await bulkActions.selectEdit()
         await bulkActions.editExpirationDate()
         await bulkActions.clickSave()
@@ -59,7 +59,8 @@ test.describe("On Rules Page", async () => {
     })
 
     test("Perform bulk delete and verify all the rules are delete", async () => {
-
+        await bulkActions.selectDelete()
+        await bulkActions.commentAllAndSave()
     })
 
     test("Perform bulk disable and verify all the rules are disabled", async () => {
