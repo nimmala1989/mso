@@ -1,25 +1,26 @@
 import { test } from '@playwright/test';
-import { Endpoints } from '../../config/setup'
+import { Endpoints } from '../../config/setup';
+import { Comment, CustomWaits } from '../../pages/common';
 import { Login } from '../../pages/login.po';
-import { Rules } from '../../pages/rules/rules.po';
-import { Create } from '../../pages/rules/create.po';
-import { EditOrView } from '../../pages/rules/editOrView.po';
-import { Table } from '../../pages/rules/table.po';
+import { Create, EditOrView, Table } from '../../pages/rules';
 
 test.describe.serial("On Rules Page", async () => {
     let login: Login
-    let rules: Rules
     let create: Create
     let editOrView: EditOrView
     let table: Table
     let authorizationToken: string
+    let comment: Comment
+    let customWaits: CustomWaits
 
     test.beforeEach(async ({ page }) => {
         login = new Login(page);
-        rules = new Rules(page);
         create = new Create(page);
         editOrView = new EditOrView(page);
         table = new Table(page);
+        comment = new Comment(page)
+        customWaits = new CustomWaits(page)
+        
         page.on('request', async request => {
             let allHeaders = await request.allHeaders()
             if (allHeaders.authorization && allHeaders.authorization != 'Bearer null') {
@@ -29,39 +30,39 @@ test.describe.serial("On Rules Page", async () => {
         await page.goto(Endpoints.baseUrl + Endpoints.baseEndpoint, { timeout: 120000, waitUntil: 'load' });
         await login.loginToTheApplication('qauser1', 'monozukuri')
         await login.selectClient('FAB2')
-        await rules.waitForPageLoad()
+        await customWaits.waitForFiltersToLoad()
     })
 
     test("Create a percent rule with mandatory fields and verify it is created", async () => {
-        await rules.openRulesPopup()
+        await create.openRulesPopup()
         await create.percentageRule()
         await table.selectByName(create.data.name)
         await editOrView.verifyName(create.data.name)
     })
 
     test("Create a event rule with mandatory fields and verify it is created", async () => {
-        await rules.openRulesPopup()
+        await create.openRulesPopup()
         await create.eventRule()
         await table.selectByName(create.data.name)
         await editOrView.verifyName(create.data.name)
     })
 
     test("Create a time rule with mandatory fields and verify it is created", async () => {
-        await rules.openRulesPopup()
+        await create.openRulesPopup()
         await create.timeRule()
         await table.selectByName(create.data.name)
         await editOrView.verifyName(create.data.name)
     })
 
     test("Create a rule including process links and verify it is created", async () => {
-        await rules.openRulesPopup()
+        await create.openRulesPopup()
         await create.processLink()
         await table.selectByName(create.data.name)
         await editOrView.verifyName(create.data.name)
     })
 
     test('Create a rule with all the fields and verify it is created', async () => {
-        await rules.openRulesPopup()
+        await create.openRulesPopup()
         await create.ruleWithAllFields()
         await table.selectByName(create.data.name)
         await editOrView.verifyName(create.data.name)

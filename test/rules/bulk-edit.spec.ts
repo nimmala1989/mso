@@ -1,32 +1,32 @@
 import { Page, test } from '@playwright/test';
-import { Endpoints } from '../../config/setup'
+import { Endpoints } from '../../config/setup';
+import { Post } from "../../pages/apis/post";
 import { Login } from '../../pages/login.po';
-import { Rules } from '../../pages/rules/rules.po';
-import { Create } from '../../pages/rules/create.po';
-import { EditOrView } from '../../pages/rules/editOrView.po';
-import { Table } from '../../pages/rules/table.po';
-import { Post } from "../../pages/apis/post"
-import { BulkActions } from "../../pages/rules/bulkAction.po"
+import { BulkActions, EditOrView, Table } from '../../pages/rules';
+import { Comment, CustomWaits } from '../../pages/common';
 
 test.describe("On Rules Page", async () => {
     let current_page: Page
     let login: Login
-    let rules: Rules
     let editOrView: EditOrView
     let table: Table
     let authorizationToken: string
     let post: Post
     let bulkActions: BulkActions
+    let comment: Comment
+    let customWaits: CustomWaits
     let rulesData: { name: string, id: string }[] = []
 
     test.beforeEach(async ({ page }) => {
         current_page = page
         login = new Login(page);
-        rules = new Rules(page);
         editOrView = new EditOrView(page);
         table = new Table(page);
         post = new Post()
         bulkActions = new BulkActions(page)
+        comment = new Comment(page)
+        customWaits = new CustomWaits(page)
+
         page.on('request', async request => {
             let allHeaders = await request.allHeaders()
             if (allHeaders.authorization && allHeaders.authorization != 'Bearer null') {
@@ -36,7 +36,7 @@ test.describe("On Rules Page", async () => {
         await page.goto(Endpoints.baseUrl + Endpoints.baseEndpoint, { timeout: 120000, waitUntil: 'load' });
         await login.loginToTheApplication('qauser1', 'monozukuri')
         await login.selectClient('FAB2')
-        await rules.waitForPageLoad()
+        await customWaits.waitForFiltersToLoad()
 
         // Create rule 1
         let rule1 = await post.createRuleWithPostRequest(authorizationToken)

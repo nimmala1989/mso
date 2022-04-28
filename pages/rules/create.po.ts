@@ -1,6 +1,6 @@
 import { expect, Page } from '@playwright/test';
 import { Common } from './common.po'
-import { Comment } from './comment.po'
+import { Comment } from '../common/comment.po'
 import { CommonActions } from '../../utilities/common';
 
 export class Create {
@@ -15,6 +15,11 @@ export class Create {
         this.data = ''
         this.comment = new Comment(page)
         this.form = new Common(this.page, 'create')
+    }
+
+    async openRulesPopup() {
+        await this.page.waitForSelector('mat-dialog-container #rule-form-container', {state: 'detached'})
+        await this.page.click('button:has-text("Create a rule")', {force: true});
     }
 
     async instantiate() {

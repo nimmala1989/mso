@@ -2,17 +2,19 @@ import { test } from '@playwright/test';
 import { Endpoints } from '../../config/setup'
 import { Login } from '../../pages/login.po';
 import { Create } from '../../pages/tagsCondition/create.po'
-import { Rules } from '../../pages/rules/rules.po';
+import { Comment, CustomWaits } from '../../pages/common';
 
-test.describe.only("On Rules Page", async () => {
+test.describe("On Rules Page", async () => {
     let login: Login 
-    let rules: Rules
+    let customWaits: CustomWaits
     let tagCondition: Create;
     let authorizationToken: any
+
     test.beforeEach(async ({ page }) => {
         login = new Login(page);
-        rules = new Rules(page);
+        customWaits = new CustomWaits(page);
         tagCondition =  new Create(page);
+
         page.on('request', async request => {
             let allHeaders = await request.allHeaders()
             if (allHeaders.authorization && allHeaders.authorization != 'Bearer null') {
@@ -22,7 +24,7 @@ test.describe.only("On Rules Page", async () => {
         await page.goto(Endpoints.baseUrl + Endpoints.baseEndpoint, { timeout: 120000, waitUntil: 'load' });
         await login.loginToTheApplication('qauser1', 'monozukuri')
         await login.selectClient('FAB2')
-        await rules.waitForPageLoad()
+        await customWaits.waitForFiltersToLoad()
     })
 
     test('Create Tag conditions and verify', async() => {

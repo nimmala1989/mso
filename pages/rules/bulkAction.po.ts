@@ -1,7 +1,6 @@
 import { Page } from "@playwright/test";
 import { CommonActions } from "../../utilities/common";
-import { Common } from "./common.po";
-import { Comment } from './comment.po';
+import { Comment } from '../common/comment.po';
 
 export class BulkActions {
     page: Page
