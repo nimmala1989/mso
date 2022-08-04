@@ -30,7 +30,7 @@ export class Create {
         await this.form.ruleName.enter(name);
     }
 
-    async selectRuleGroup(groupToSelect: 'Defect Inspect' | 'Dummy Inspection' | 'Yield Inspection' = 'Defect Inspect') {
+    async selectRuleGroup(groupToSelect: string) {
         await this.form.ruleGroup.select(groupToSelect);
     }
 
@@ -48,7 +48,7 @@ export class Create {
     async enterEvent(lotNumber: number, eventToSelect: string) {
         await this.form.type.select('Event');
         await this.form.measure.enterLot(lotNumber.toString());
-        await this.form.event.select('test_event_2')
+        await this.form.event.select(eventToSelect)
     }
 
     async enterTime(time: number) {
@@ -118,7 +118,7 @@ export class Create {
     async percentageRule() {
         await this.instantiate()
         await this.enterName()
-        await this.selectRuleGroup('Defect Inspect')
+        await this.selectRuleGroup('Defect Metrology')
         await this.enterDescription()
         await this.enterPercentages(25, 4, 50)
         await this.enterAdvancedSettings(2, 4, 23)
@@ -136,9 +136,9 @@ export class Create {
     async eventRule() {
         await this.instantiate()
         await this.enterName()
-        await this.selectRuleGroup('Defect Inspect')
+        await this.selectRuleGroup('Defect Metrology')
         await this.enterDescription()
-        await this.enterEvent(5, 'test_event_2')
+        await this.enterEvent(5, 'EVENT1000115581')
         let warnDate = CommonActions.getFutureDate("Days", 5)
         let expirationDate = CommonActions.getFutureDate("Months", 2)
         await this.enterExpirationDates(warnDate, expirationDate)
@@ -153,7 +153,7 @@ export class Create {
     async timeRule() {
         await this.instantiate()
         await this.enterName()
-        await this.selectRuleGroup('Defect Inspect')
+        await this.selectRuleGroup('Defect Metrology')
         await this.enterDescription()
         await this.enterTime(5)
         let warnDate = CommonActions.getFutureDate("Days", 5)
@@ -170,7 +170,7 @@ export class Create {
     async processLink() {
         await this.instantiate()
         await this.enterName()
-        await this.selectRuleGroup('Defect Inspect')
+        await this.selectRuleGroup('Defect Metrology')
         await this.enterDescription()
         await this.enterPercentages(25, 4, 50)
         await this.enterAdvancedSettings(2, 4, 23)
@@ -179,7 +179,7 @@ export class Create {
         await this.enterExpirationDates(warnDate, expirationDate)
         await this.selectDecision('All')
         await this.selectProdValue('Each')
-        await this.addProcessLinks('STEP1000093143', 'STEP1000099908')
+        await this.addProcessLinks('ML', 'PRCS1000217913')
         await this.submit()
         await this.comment.enterComment("created rule with automation script");
         await this.comment.submit();
@@ -189,7 +189,7 @@ export class Create {
     async ruleWithAllFields() {
         await this.instantiate()
         await this.enterName()
-        await this.selectRuleGroup('Defect Inspect')
+        await this.selectRuleGroup('Defect Metrology')
         await this.enterDescription()
         await this.enterPercentages(25, 4, 50)
         await this.enterAdvancedSettings(2, 4, 23)
@@ -198,11 +198,11 @@ export class Create {
         await this.enterExpirationDates(warnDate, expirationDate)
         await this.selectDecision('All')
         await this.selectProdValue('Each')
-        await this.addProcessLinks('STEP1000093143', 'STEP1000099908')
-        await this.addTagCondition('0000test1')
-        await this.selectGlobalTagConditions()
-        await this.addDependentProcesses('STEP1000099908', 'STEP1000093143')
-        await this.addProcessSubs('STEP1000093143')
+        await this.addProcessLinks('ML', 'PRCS1000217913')
+        await this.addTagCondition('ALWAYS_LOT')
+        // await this.selectGlobalTagConditions()
+        await this.addDependentProcesses('PRCS1000217913', 'PRCS1000389586')
+        await this.addProcessSubs('PRCS1000217913')
         await this.submit()
         await this.comment.enterComment("created rule with automation script");
         await this.comment.submit();
@@ -219,7 +219,7 @@ export class Create {
     async tryToCreateRuleWithWrongPercentageAndVerifyError() {
         await this.instantiate()
         await this.enterName()
-        await this.selectRuleGroup('Defect Inspect')
+        await this.selectRuleGroup('Defect Metrology')
         await this.enterDescription()
         await this.enterPercentages(252, 234, 455)
         const invalidPercentageError: string | null = await this.page.textContent('app-percent-condition app-error-text >> nth=0')
@@ -230,7 +230,7 @@ export class Create {
         const self = this;
         await this.instantiate()
         await this.enterName()
-        await this.selectRuleGroup('Defect Inspect')
+        await this.selectRuleGroup('Defect Metrology')
         await this.enterDescription()
         await this.enterPercentages(25, 4, 50)
         return {
@@ -261,7 +261,7 @@ export class Create {
         const self = this;
         await this.instantiate()
         await this.enterName()
-        await this.selectRuleGroup('Defect Inspect')
+        await this.selectRuleGroup('Defect Metrology')
         await this.enterDescription()
         await this.enterPercentages(25, 4, 50)
         await this.enterAdvancedSettings(2, 4, 23)

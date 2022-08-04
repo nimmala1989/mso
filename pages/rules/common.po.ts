@@ -8,7 +8,7 @@ export class Common {
     form: any
     newRuleData: {
         name: string,
-        ruleGroup: 'Defect Inspect' | 'Dummy Inspection' | 'Yield Inspection',
+        ruleGroup: string,
         description: string
     }
     mode: string
@@ -18,7 +18,7 @@ export class Common {
         this.actions = new Action()
         this.newRuleData = {
             name: '',
-            ruleGroup: 'Defect Inspect',
+            ruleGroup: 'Defect Metrology',
             description: ''
         }
         this.mode = mode
@@ -51,7 +51,7 @@ export class Common {
     get ruleGroup() {
         const self = this
         return {
-            async select(groupToSelect: 'Defect Inspect' | 'Dummy Inspection' | 'Yield Inspection') {
+            async select(groupToSelect: string) {
                 self.newRuleData.ruleGroup = groupToSelect;
                 const dropdown = await self.form.waitForSelector('id=ruleGroup')
                 await dropdown.click()

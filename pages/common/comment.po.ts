@@ -8,7 +8,7 @@ export class Comment {
     }
 
     async enterComment(commentToEnter: string) {
-        await this.page.fill('section:has-text("Comment (required)") textarea', commentToEnter);
+        await this.page.fill('section:has-text("Comment (optional)") textarea', commentToEnter);
     }
 
     async submit() {
