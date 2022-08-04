@@ -28,7 +28,7 @@ test.describe.serial("On Rules Page", async () => {
             }
         })
         await page.goto(Endpoints.baseUrl + Endpoints.baseEndpoint, { timeout: 120000, waitUntil: 'load' });
-        await login.loginToTheApplication('qauser1', 'monozukuri')
+        await login.loginToTheApplication()
         await login.selectClient('FAB2')
         await customWaits.waitForFiltersToLoad()
     })
