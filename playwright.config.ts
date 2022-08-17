@@ -1,6 +1,6 @@
 
 // playwright.config.ts
-import { PlaywrightTestConfig, devices } from '@playwright/test';
+import type { PlaywrightTestConfig, devices } from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
 
@@ -20,14 +20,14 @@ const config: PlaywrightTestConfig = {
     testIgnore: '**/*ignore',
 
     // Limit the number of workers on CI, use default locally
-    workers: process.env.CI ? 2 : undefined,
+    workers: process.env.CI ? 2 : 2,
 
     // Forbid test.only on CI
     forbidOnly: !!process.env.CI,
 
     use: {
         // Browser options
-        headless: false,
+        headless: true,
         browserName: 'chromium',
         channel: 'chrome',
         // Artifacts

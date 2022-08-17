@@ -4,7 +4,7 @@ import { Login } from '../../pages/login.po';
 import { Create } from '../../pages/tagsCondition/create.po'
 import { Comment, CustomWaits } from '../../pages/common';
 
-test.describe("On Rules Page", async () => {
+test.describe.serial("On Rules Page", async () => {
     let login: Login 
     let customWaits: CustomWaits
     let tagCondition: Create;

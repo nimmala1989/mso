@@ -4,7 +4,7 @@ import { Comment, CustomWaits } from '../../pages/common';
 import { Login } from '../../pages/login.po';
 import { Create, EditOrView, Table } from '../../pages/rules';
 
-test.describe("On Rules Page", async () => {
+test.describe.serial("On Rules Page", async () => {
     let login: Login
     let create: Create
     let editOrView: EditOrView

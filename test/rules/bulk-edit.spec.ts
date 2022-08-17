@@ -5,7 +5,7 @@ import { Login } from '../../pages/login.po';
 import { BulkActions, EditOrView, Table } from '../../pages/rules';
 import { Comment, CustomWaits } from '../../pages/common';
 
-test.describe("On Rules Page", async () => {
+test.describe.serial("On Rules Page", async () => {
     let current_page: Page
     let login: Login
     let editOrView: EditOrView
