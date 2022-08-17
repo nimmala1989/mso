@@ -35,7 +35,7 @@ test.describe("On Rules Page", async () => {
         await tagCondition.selectEnable()
         // await tagCondition.enterExpiration('7/22/2022')
         const contextFields = await tagCondition.openContexts()
-        await contextFields.selectProd('PRD100321280')
+        await contextFields.selectProd()
         await contextFields.clickOk()
         await tagCondition.submit()
         await tagCondition.enterComment()

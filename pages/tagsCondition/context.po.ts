@@ -13,39 +13,72 @@ export class Context {
         this.page = page
     }
 
-    async selectProdMsoGroup(valueToSelect: string) {
+    async selectValueByIndex(index: number) {
+        let element = this.page.locator('div[role="listbox"] [aria-disabled="false"] .mat-option-text').nth(index)
+        await element.click()
+    }
+
+    async selectProdMsoGroup(valueToSelect: string | number = 0) {
         await this.page.click('#prdMsoGroupEachNa');
-        await this.page.click(`div[role="listbox"] >> text=${valueToSelect}`);
+        if (typeof (valueToSelect) == 'number') {
+            this.selectValueByIndex(valueToSelect)
+        } else {
+            await this.page.click(`div[role="listbox"] >> text=${valueToSelect}`);
+        }
     }
 
-    async selectProd(valueToSelect: string) {
+    async selectProd(valueToSelect: string | number = 0) {
         await this.page.click('#prdEachNa');
-        await this.page.click(`div[role="listbox"] >> text=${valueToSelect}`);
+        if (typeof (valueToSelect) == 'number') {
+            this.selectValueByIndex(valueToSelect)
+        } else {
+            await this.page.click(`div[role="listbox"] >> text=${valueToSelect}`);
+        }
     }
 
-    async selectRouteMsoGroup(valueToSelect: string) {
+    async selectRouteMsoGroup(valueToSelect: string | number = 0) {
         await this.page.click('#routeMsoGroupEachNa');
-        await this.page.click(`div[role="listbox"] >> text=${valueToSelect}`);
+        if (typeof (valueToSelect) == 'number') {
+            this.selectValueByIndex(valueToSelect)
+        } else {
+            await this.page.click(`div[role="listbox"] >> text=${valueToSelect}`);
+        }
     }
 
-    async selectRoute(valueToSelect: string) {
+    async selectRoute(valueToSelect: string | number = 0) {
         await this.page.click('#routeEachNa');
-        await this.page.click(`div[role="listbox"] >> text=${valueToSelect}`);
+        if (typeof (valueToSelect) == 'number') {
+            this.selectValueByIndex(valueToSelect)
+        } else {
+            await this.page.click(`div[role="listbox"] >> text=${valueToSelect}`);
+        }
     }
 
-    async selectPlanPriority(valueToSelect: string) {
+    async selectPlanPriority(valueToSelect: string | number = 0) {
         await this.page.click('#planPriorityNa');
-        await this.page.click(`div[role="listbox"] >> text=${valueToSelect}`);
+        if (typeof (valueToSelect) == 'number') {
+            this.selectValueByIndex(valueToSelect)
+        } else {
+            await this.page.click(`div[role="listbox"] >> text=${valueToSelect}`);
+        }
     }
 
-    async selectLotMsoGroup(valueToSelect: string) {
+    async selectLotMsoGroup(valueToSelect: string | number = 0) {
         await this.page.click('#lotMsoGroupEachNa');
-        await this.page.click(`div[role="listbox"] >> text=${valueToSelect}`);
+        if (typeof (valueToSelect) == 'number') {
+            this.selectValueByIndex(valueToSelect)
+        } else {
+            await this.page.click(`div[role="listbox"] >> text=${valueToSelect}`);
+        }
     }
 
-    async selectLotGroup(valueToSelect: string) {
+    async selectLotGroup(valueToSelect: string | number = 0) {
         await this.page.click('#lotGroupEachNa');
-        await this.page.click(`div[role="listbox"] >> text=${valueToSelect}`);
+        if (typeof (valueToSelect) == 'number') {
+            this.selectValueByIndex(valueToSelect)
+        } else {
+            await this.page.click(`div[role="listbox"] >> text=${valueToSelect}`);
+        }
     }
 
     async selectLotParameters(name: string, value: string) {
