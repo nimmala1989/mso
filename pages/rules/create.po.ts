@@ -71,17 +71,17 @@ export class Create {
         }
     }
 
-    async selectDecision(value: "All" | "Tag" | "Skip") {
+    async selectDecision(value: "All" | "Tag" | "Skip" ) {
         await this.form.decision.select()
         await this.form.decision.selectDecisionType(value)
     }
 
-    async selectProdValue(value: string | 'EACH') {
+    async selectProdValue(value: string | number = 0) {
         await this.form.counter.selectSettings('Prod')
-        await this.form.counter.selectProd(value.toUpperCase());
+        await this.form.counter.selectProd(value);
     }
 
-    async selectToolsSettingAndValue(value: string | 'EACH') {
+    async selectToolsSettingAndValue(value: string | number = 0) {
         await this.form.counter.selectSettings('Tool')
         await this.form.counter.selectTool(value);
     }
@@ -90,7 +90,7 @@ export class Create {
         await this.form.createButton.click();
     }
 
-    async addProcessLinks(main: string, sampling: string) {
+    async addProcessLinks(main: string | number = 0, sampling: string | number = 1) {
         await this.form.processLinks.open()
         await this.form.processLinks.selectMainProcess(main)
         await this.form.processLinks.selectSamplingProcess(sampling)
@@ -103,15 +103,15 @@ export class Create {
         await this.form.globalTagConditions('Tag Test All & All').selectCheckbox()
     }
 
-    async addTagCondition(conditionToAdd: string) {
+    async addTagCondition(conditionToAdd: string | number = 0) {
         await this.form.tagConditions(conditionToAdd).add()
     }
 
-    async addDependentProcesses(samplingProcess: string, dependentProcess: string) {
+    async addDependentProcesses(samplingProcess: string | number = 0, dependentProcess: string | number = 0) {
         await this.form.dependentProcess.add(samplingProcess, dependentProcess)
     }
 
-    async addProcessSubs(samplingProcess: string) {
+    async addProcessSubs(samplingProcess: string | number = 0) {
         await this.form.processSubs.add(samplingProcess)
     }
 
@@ -143,7 +143,7 @@ export class Create {
         let expirationDate = CommonActions.getFutureDate("Months", 2)
         await this.enterExpirationDates(warnDate, expirationDate)
         await this.selectDecision('All')
-        await this.selectToolsSettingAndValue('BACK-T007')
+        await this.selectToolsSettingAndValue(1)
         await this.submit()
         await this.comment.enterComment("created rule with automation script");
         await this.comment.submit();
@@ -160,7 +160,7 @@ export class Create {
         let expirationDate = CommonActions.getFutureDate("Months", 2)
         await this.enterExpirationDates(warnDate, expirationDate)
         await this.selectDecision('All')
-        await this.selectProdValue('Each')
+        await this.selectProdValue()
         await this.submit()
         await this.comment.enterComment("created rule with automation script");
         await this.comment.submit();
@@ -178,8 +178,8 @@ export class Create {
         let expirationDate = CommonActions.getFutureDate("Months", 2)
         await this.enterExpirationDates(warnDate, expirationDate)
         await this.selectDecision('All')
-        await this.selectProdValue('Each')
-        await this.addProcessLinks('ML', 'PRCS1000217913')
+        await this.selectProdValue()
+        await this.addProcessLinks()
         await this.submit()
         await this.comment.enterComment("created rule with automation script");
         await this.comment.submit();
@@ -197,12 +197,12 @@ export class Create {
         let expirationDate = CommonActions.getFutureDate("Months", 2)
         await this.enterExpirationDates(warnDate, expirationDate)
         await this.selectDecision('All')
-        await this.selectProdValue('Each')
-        await this.addProcessLinks('ML', 'PRCS1000217913')
-        await this.addTagCondition('ALWAYS_LOT')
+        await this.selectProdValue()
+        await this.addProcessLinks()
+        await this.addTagCondition()
         // await this.selectGlobalTagConditions()
-        await this.addDependentProcesses('PRCS1000217913', 'PRCS1000389586')
-        await this.addProcessSubs('PRCS1000217913')
+        await this.addDependentProcesses()
+        await this.addProcessSubs()
         await this.submit()
         await this.comment.enterComment("created rule with automation script");
         await this.comment.submit();

@@ -216,16 +216,31 @@ export class Common {
             async open() {
                 await (await self.form.waitForSelector('[formname="processLinks"] i.fa-plus-square')).click();
             },
-            async selectMainProcess(value: string) {
-                await (await self.page.waitForSelector('id=fromMsoProcess')).click()
-                await self.page.click(`#fromMsoProcess-panel mat-option span:has-text("${value}")`)
+            async selectMainProcess(optionToSelect: string | number = 0) {
+                await self.page.click('id=fromMsoProcess');
+                let option
+                if (typeof (optionToSelect) == 'number') {
+                    option = self.page.locator(`[id="fromMsoProcess-panel"] mat-option[aria-disabled="false"]:not([value="NA"])`).nth(optionToSelect)
+                } else {
+                    optionToSelect = optionToSelect.toUpperCase()
+                    option = self.page.locator(`[id="fromMsoProcess-panel"] mat-option[value="${optionToSelect}"]`)
+                }
+                await option.click();
+
             },
-            async selectSamplingProcess(value: string) {
-                await (await self.page.waitForSelector('id=toMsoProcess')).click()
-                await self.page.click(`#toMsoProcess-panel mat-option span:has-text("${value}")`)
+            async selectSamplingProcess(optionToSelect: string | number = 1) {
+                await self.page.click('id=toMsoProcess');
+                let option
+                if (typeof (optionToSelect) == 'number') {
+                    option = self.page.locator(`[id="toMsoProcess-panel"] mat-option[aria-disabled="false"]:not([value="NA"])`).nth(optionToSelect)
+                } else {
+                    optionToSelect = optionToSelect.toUpperCase()
+                    option = self.page.locator(`[id="toMsoProcess-panel"] mat-option[value="${optionToSelect}"]`)
+                }
+                await option.click();
             },
             async clickOk() {
-                await (await self.page.$('button:has-text("Ok")')).click();
+                await self.page.click('button:has-text("Ok")');
             }
         }
     }
@@ -236,20 +251,31 @@ export class Common {
             async selectSettings(optionToSelect: string) {
                 await (await self.form.waitForSelector('app-counter-settings i.fa-plus-square')).click();
                 let selectOption = await self.page.$(`mat-checkbox:has-text("${optionToSelect}")`);
-                await (await selectOption.$('input')).click({ force: true });
-                await (await self.page.$('button:has-text("Close")')).click();
+                await (await selectOption?.$('input'))?.click({ force: true });
+                await self.page.click('button:has-text("Close")');
             },
-            async selectProd(optionToSelect: string) {
+            async selectProd(optionToSelect: string | number = 0) {
                 const prodDropDown = await self.page.waitForSelector('[id="prdEachNa"] .mat-select-value')
                 await prodDropDown.click();
-                const option = await self.page.$(`[id="prdEachNa-panel"] mat-option[value="${optionToSelect}"]`)
+                let option
+                if (typeof (optionToSelect) == 'number') {
+                    option = self.page.locator(`[id="prdEachNa-panel"] mat-option[aria-disabled="false"]:not([value="NA"])`).nth(optionToSelect)
+                } else {
+                    optionToSelect = optionToSelect.toUpperCase()
+                    option = self.page.locator(`[id="prdEachNa-panel"] mat-option[value="${optionToSelect}"]`)
+                }
                 await option.click();
             },
-            async selectTool(optionToSelect: string) {
-                const dropdown = await self.page.waitForSelector('[id="toolEachNa"] .mat-select-value')
-                await dropdown.click();
-
-                await (await self.page.$(`[id="toolEachNa-panel"] mat-option:has-text("${optionToSelect}")`)).click();
+            async selectTool(optionToSelect: string | number = 0) {
+                await self.page.click('[id="toolEachNa"] .mat-select-value')
+                let option
+                if (typeof (optionToSelect) == 'number') {
+                    option = self.page.locator(`[id="toolEachNa-panel"] mat-option[aria-disabled="false"]:not([value="NA"])`).nth(optionToSelect)
+                } else {
+                    optionToSelect = optionToSelect.toUpperCase()
+                    option = self.page.locator(`[id="toolEachNa-panel"] mat-option[value="${optionToSelect}"]`)
+                }
+                await option.click();
             }
         }
     }
@@ -272,17 +298,24 @@ export class Common {
         }
     }
 
-    tagConditions(condition: string) {
+    tagConditions(optionToSelect: string | number = 0) {
         const self = this;
         return {
             async add() {
                 await (await self.form.waitForSelector('app-explicit-tags .icon-fps')).click();
                 await self.page.click('app-select-search mat-select')
-                await self.page.click(`[id="tag2-panel"] mat-option span:has-text("${condition}")`)
-                await (await self.page.$('button:has-text("Ok")')).click();
+                let option
+                if (typeof (optionToSelect) == 'number') {
+                    option = self.page.locator(`[id="tag2-panel"] mat-option[aria-disabled="false"]:not([value="NA"])`).nth(optionToSelect)
+                } else {
+                    optionToSelect = optionToSelect.toUpperCase()
+                    option = self.page.locator(`[id="tag2-panel"] mat-option[value="${optionToSelect}"]`)
+                }
+                await option.click();
+                await self.page.click('button:has-text("Ok")');
             },
             async delete() {
-                await self.page.click(`text=${condition} Disassociate Tag Condition >> i`);
+                await self.page.click(`text=${optionToSelect} Disassociate Tag Condition >> i`);
             }
         }
     }
@@ -291,14 +324,30 @@ export class Common {
         const self = this;
         const page = self.page;
         return {
-            async add(samplingProcess: string, dependentProcess: string) {
+            async add(samplingProcess: string | number = 0, dependentProcess: string | number = 0) {
                 await (await self.form.waitForSelector('app-dependent-links .fa-plus-square')).click();
                 await page.click('text=Sampling Process : Sampling Process >> mat-select[role="combobox"] span');
-                await page.click(`mat-option[role="option"] >> text=${samplingProcess}`);
+                let option
+                if (typeof (samplingProcess) == 'number') {
+                    option = self.page.locator(`[id="parentProcess-panel"] mat-option[aria-disabled="false"]:not([value="NA"])`).nth(samplingProcess)
+                } else {
+                    samplingProcess = samplingProcess.toUpperCase()
+                    option = self.page.locator(`[id="parentProcess-panel"] mat-option[value="${samplingProcess}"]`)
+                }
+                await option.click();
+
                 await page.click('text=Dependent ProcessHelp me find one... >> span');
-                await page.click(`div[role="listbox"] >> text=${dependentProcess}`);
+                let option2
+                if (typeof (dependentProcess) == 'number') {
+                    option2 = self.page.locator(`[id="childProcess-panel"] mat-option[aria-disabled="false"]:not([value="NA"])`).nth(dependentProcess)
+                } else {
+                    dependentProcess = dependentProcess.toUpperCase()
+                    option2 = self.page.locator(`[id="childProcess-panel"] mat-option[value="${dependentProcess}"]`)
+                }
+                await option2.click();
+
                 await page.click('button:has-text("Ok")');
-                
+
             }
         }
     }
@@ -307,10 +356,17 @@ export class Common {
         const self = this;
         const page = self.page;
         return {
-            async add(samplingProcess: string) {
+            async add(samplingProcess: string | number = 0) {
                 await (await self.form.waitForSelector('app-process-view[formname="processSubs"] .fa-plus-square')).click();
                 await page.click('text=Sampling ProcessHelp me find one... >> span');
-                await page.click(`div[role="listbox"] >> text=${samplingProcess}`);
+                let option
+                if (typeof (samplingProcess) == 'number') {
+                    option = self.page.locator(`[id="toMsoProcess-panel"] mat-option[aria-disabled="false"]:not([value="NA"])`).nth(samplingProcess)
+                } else {
+                    samplingProcess = samplingProcess.toUpperCase()
+                    option = self.page.locator(`[id="toMsoProcess-panel"] mat-option[value="${samplingProcess}"]`)
+                }
+                await option.click();
                 await page.click('button:has-text("Add")');
             }
         }
