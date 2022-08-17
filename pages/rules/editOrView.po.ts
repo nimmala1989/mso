@@ -115,7 +115,7 @@ export class EditOrView {
 
     }
 
-    async updateCounterSettings(from: string, to: string, value: string) {
+    async updateCounterSettings(from: string, to: string, value: string | number = 2) {
         const form = new Common(this.page, 'read');
         await form.instantiate()
         await form.counter.selectSettings(from)
@@ -123,7 +123,7 @@ export class EditOrView {
         await form.counter.selectTool(value);
     }
 
-    async updateProcessingLinkSettings(main: string, sampling: string) {
+    async updateProcessingLinkSettings(main: string | number = 1, sampling: string | number = 2) {
         const form = new Common(this.page, 'read');
         await form.instantiate()
         await form.processLinks.open()
@@ -135,26 +135,23 @@ export class EditOrView {
     async updateGlobalTabCondition() {
         const form = new Common(this.page, 'read');
         await form.instantiate()
-        await form.globalTagConditions('Context Test').unselectCheckbox()
-        await form.globalTagConditions('Global Condition 1 (inactive)').unselectCheckbox()
-        await form.globalTagConditions('Parameter Test').unselectCheckbox()
-        await form.globalTagConditions('Tag Test All & All').unselectCheckbox()
+        await form.globalTagConditions(0).unselectCheckbox()
     }
 
-    async updateTagCondition(existingCondition: string, conditionToAdd: string) {
+    async updateTagCondition(existingCondition: string, conditionToAdd: string | number) {
         const form = new Common(this.page, 'read');
         await form.instantiate()
-        await form.tagConditions(existingCondition).delete()
+        // await form.tagConditions(existingCondition).delete()
         await form.tagConditions(conditionToAdd).add()
     }
 
-    async updateDependentProcess(samplingProcess: string, dependentProcess: string) {
+    async updateDependentProcess(samplingProcess: string | number, dependentProcess: string | number) {
         const form = new Common(this.page, 'read');
         await form.instantiate()
         await form.dependentProcess.add(samplingProcess, dependentProcess)
     }
 
-    async updateProcessSubs(samplingProcess: string) {
+    async updateProcessSubs(samplingProcess: string | number) {
         const form = new Common(this.page, 'read');
         await form.instantiate()
         await form.processSubs.add(samplingProcess)

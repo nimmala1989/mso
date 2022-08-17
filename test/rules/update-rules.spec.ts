@@ -64,14 +64,14 @@ test.describe("On Rules Page", async () => {
     })
 
     test('Update Counter Settings and Verify', async () => {
-        await editOrView.updateCounterSettings('Prod', 'Tool', 'BACK-T007')
+        await editOrView.updateCounterSettings('Prod', 'Tool')
         await editOrView.clickSave()
         await editOrView.commentAndSave()
         await table.selectByName(create.data.name)
     })
 
     test('Update Process Link Settings and Verify', async () => {
-        await editOrView.updateProcessingLinkSettings('STEP1000093143', 'STEP1000177976')
+        await editOrView.updateProcessingLinkSettings()
         await editOrView.clickSave()
         await editOrView.commentAndSave()
         await table.selectByName(create.data.name)
@@ -85,21 +85,21 @@ test.describe("On Rules Page", async () => {
     })
 
     test('Update Tag conditions and Verify', async () => {
-        await editOrView.updateTagCondition('0000test1', 'Block Rockets')
+        await editOrView.updateTagCondition('0000test1', 2)
         await editOrView.clickSave()
         await editOrView.commentAndSave()
         await table.selectByName(create.data.name)
     })
 
     test('Update Dependent Processes and Verify', async () => {
-        await editOrView.updateDependentProcess('STEP1000099908', 'STEP1000093143')
+        await editOrView.updateDependentProcess(0, 2)
         await editOrView.clickSave()
         await editOrView.commentAndSave()
         await table.selectByName(create.data.name)
     })
 
     test('Update Process Subs and Verify', async () => {
-        await editOrView.updateProcessSubs('STEP1000099908')
+        await editOrView.updateProcessSubs(1)
         await editOrView.clickSave()
         await editOrView.commentAndSave()
         await table.selectByName(create.data.name)

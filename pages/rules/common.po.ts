@@ -280,17 +280,27 @@ export class Common {
         }
     }
 
-    globalTagConditions(checkbox: "Context Test" | "Parameter Test" | "Tag Test All & All" | "Global Condition 1 (inactive)") {
+    globalTagConditions(checkbox: string | number = 0) {
         const self = this;
         return {
             async selectCheckbox() {
-                let checkboxSelector = await self.form.waitForSelector(`text=${checkbox} inherited >> div mat-checkbox input`)
+                let checkboxSelector
+                if (typeof(checkbox) == 'number'){
+                    self.form.$$('')
+                }else{
+                    checkboxSelector = await self.form.waitForSelector(`text=${checkbox} inherited >> div mat-checkbox input`)
+                }
                 await checkboxSelector.check()
                 const status = await checkboxSelector.isChecked()
                 expect(status).toBe(true)
             },
             async unselectCheckbox() {
-                let checkboxSelector = await self.form.waitForSelector(`text=${checkbox} inherited >> div mat-checkbox input`)
+                let checkboxSelector
+                if (typeof(checkbox) == 'number'){
+                    checkboxSelector = await self.form.waitForSelector('app-global-tags [formarrayname="tagConditions"] div mat-checkbox input')
+                }else{
+                    checkboxSelector = await self.form.waitForSelector(`text=${checkbox} inherited >> div mat-checkbox input`)
+                }
                 await checkboxSelector.uncheck({ force: true })
                 const status = await checkboxSelector.isChecked()
                 expect(status).toBe(false)

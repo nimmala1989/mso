@@ -98,9 +98,7 @@ export class Create {
     }
 
     async selectGlobalTagConditions() {
-        await this.form.globalTagConditions('Context Test').selectCheckbox()
-        await this.form.globalTagConditions('Parameter Test').selectCheckbox()
-        await this.form.globalTagConditions('Tag Test All & All').selectCheckbox()
+        await this.form.globalTagConditions(0).selectCheckbox()
     }
 
     async addTagCondition(conditionToAdd: string | number = 0) {
