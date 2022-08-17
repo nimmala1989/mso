@@ -1,28 +1,30 @@
 {
     "facility": "FAB2",
-    "expirationCheckbox": true,
+    "expirationCheckbox": false,
     "ruleGroup": "DEFECT",
     "smpRuleId": null,
     "smpRuleType": "PERCENT",
-    "smpRuleName": "testing - loki",
-    "smpRuleDescription": "sdfdsf",
-    "expiryWarnInst": "2022-03-25T04:00:00.000Z",
-    "expiryDeactivateInst": "2022-03-30T04:00:00.000Z",
+    "smpRuleName": "Testing - 1233434",
+    "smpRuleDescription": "testing",
+    "smpRuleOwner": "testing",
+    "smpRuleOwnerEmail": "testing@txt.com",
+    "expiryWarnInst": null,
+    "expiryDeactivateInst": null,
     "externalWrite": false,
     "decisionsToSend": "ALL",
-    "smpRuleCondition": 3,
-    "smpRuleConditionMin": "2",
-    "smpRuleConditionMax": "3",
+    "smpRuleCondition": 4,
+    "smpRuleConditionMin": "5",
+    "smpRuleConditionMax": "6",
     "smpRuleConditionHours": null,
     "smpRuleConditionCounter": null,
     "smpRuleConditionPercentSettings": {
-        "riskWarn": "3",
-        "skipWarn": "3",
-        "riskThreshold": "3",
-        "skipThreshold": "3",
-        "minSkip": "25",
-        "maxSkip": "40",
-        "lotHistory": "100",
+        "riskWarn": "44",
+        "skipWarn": "44",
+        "riskThreshold": "44",
+        "skipThreshold": "44",
+        "minSkip": "3",
+        "maxSkip": "44",
+        "lotHistory": "55",
         "advancedCheckbox": true
     },
     "lotParmName": null,
@@ -37,121 +39,65 @@
     "toolEachNa": "NA",
     "toolMsoGroupEachNa": "NA",
     "chamberEachNa": "NA",
+    "chamberMsoGroupEachNa": "NA",
     "isActive": false,
     "tagConditions": [
         {
             "facility": null,
-            "isActive": false,
-            "smpRuleIdNa": "NA",
-            "toMsoProcessNa": "NA",
-            "tagConditionId": 1743,
-            "tagConditionName": "Global Condition 1",
-            "isInherited": true
-        },
-        {
-            "facility": null,
             "isActive": true,
             "smpRuleIdNa": "NA",
             "toMsoProcessNa": "NA",
-            "tagConditionId": 1323,
-            "tagConditionName": "Context Test",
+            "tagConditionId": 203,
+            "tagConditionName": "sfsdf",
             "isInherited": true
         },
         {
-            "facility": null,
+            "facility": "FAB2",
             "isActive": true,
-            "smpRuleIdNa": "NA",
+            "smpRuleIdNa": null,
             "toMsoProcessNa": "NA",
-            "tagConditionId": 4,
-            "tagConditionName": "Parameter Test",
-            "isInherited": true
-        },
-        {
-            "facility": null,
-            "isActive": true,
-            "smpRuleIdNa": "NA",
-            "toMsoProcessNa": "NA",
-            "tagConditionId": 827,
-            "tagConditionName": "Tag Test All & All",
-            "isInherited": true
-        },
-        {
-            "facility": "FAB2",
-            "isActive": true,
-            "smpRuleIdNa": "NA",
-            "toMsoProcessNa": "STEP1000099908",
-            "tagConditionId": 1564,
-            "tagConditionName": "testAddProcesses2",
-            "isInherited": true
-        },
-        {
-            "facility": "FAB2",
-            "isActive": false,
-            "smpRuleIdNa": "NA",
-            "toMsoProcessNa": "STEP1000099908",
-            "tagConditionId": 1383,
-            "tagConditionName": "Sree Test 11",
-            "isInherited": true
-        },
-        {
-            "facility": "FAB2",
-            "isActive": true,
-            "smpRuleIdNa": "NA",
-            "toMsoProcessNa": "STEP1000099908",
-            "tagConditionId": 1343,
-            "tagConditionName": "Sree Test 9012",
-            "isInherited": true
-        },
-        {
-            "facility": "FAB2",
-            "isActive": false,
-            "smpRuleIdNa": "NA",
-            "toMsoProcessNa": "STEP1000099908",
-            "tagConditionId": 1563,
-            "tagConditionName": "testAddProcess1",
-            "isInherited": true
-        },
-        {
-            "facility": "FAB2",
-            "isActive": true,
-            "smpRuleIdNa": "NA",
-            "toMsoProcessNa": "STEP1000099908",
-            "tagConditionId": 1004603,
-            "tagConditionName": "TestTagChange",
-            "isInherited": true
-        },
-        {
-            "facility": "FAB2",
-            "isActive": false,
-            "smpRuleIdNa": "NA",
-            "toMsoProcessNa": "STEP1000099908",
-            "tagConditionId": 1523,
-            "tagConditionName": "testAddProcess6",
+            "tagConditionId": 200,
+            "tagConditionName": "123-TEST",
             "isInherited": true
         }
     ],
-    "mesActionComment": "sdfsdfsdfsdf",
+    "mesActionComment": "testing",
     "smpRuleConditionEvents": [],
     "processLinks": [
         {
             "facility": "FAB2",
             "smpRuleId": null,
-            "fromMsoProcessNa": "STEP1000093143",
-            "toMsoProcessNa": "STEP1000099908",
-            "tagParmName": "PARAMETER_2",
-            "tagParmValue": "PARAMETER_2",
+            "fromMsoProcessNa": "ML",
+            "toMsoProcessNa": "PRCS1000217913",
+            "tagParmName": "MES_PARAM_5",
+            "tagParmValue": "MES_PARAM_5",
             "decisionOnSingleFrom": false
         }
     ],
-    "processSubs": [],
-    "decisionLinks": [],
-    "numLotsHistCutoffOvr": 100,
-    "maxConsecSkipsTagNextLotOvr": 40,
-    "minConsecutiveSkipAllowTagOvr": 25,
-    "maxConsecSkipWarn": 3,
-    "maxConsecSkipTrgMesAction": 3,
-    "maxLarWarn": 3,
-    "maxLarTriggerMesAction": 3,
+    "processSubs": [
+        {
+            "facility": "FAB2",
+            "smpRuleId": null,
+            "toMsoProcess": "ML",
+            "isSubDecisionTag": true
+        }
+    ],
+    "decisionLinks": [
+        {
+            "facility": "FAB2",
+            "smpRuleId": null,
+            "parentToMsoProcess": "PRCS1000217913",
+            "childToMsoProcess": "ML",
+            "linkType": "ALL"
+        }
+    ],
+    "numLotsHistCutoffOvr": 55,
+    "maxConsecSkipsTagNextLotOvr": 44,
+    "minConsecutiveSkipAllowTagOvr": 3,
+    "maxConsecSkipWarn": 44,
+    "maxConsecSkipTrgMesAction": 44,
+    "maxLarWarn": 44,
+    "maxLarTriggerMesAction": 44,
     "writeDecisionToExtlSource": false,
     "disassociatedTagConditions": []
 }

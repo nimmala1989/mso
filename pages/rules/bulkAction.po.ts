@@ -55,13 +55,7 @@ export class BulkActions {
     }
 
     async commentAllAndSave(comment: string = "created rule with automation script") {
-        let commentBoxes = this.page.locator('section:has-text("Comment (required)") textarea');
-        await commentBoxes.nth(0).fill(comment)
-        await commentBoxes.nth(1).fill(comment)
-        await commentBoxes.nth(2).fill(comment)
-        let submitButton = this.page.locator('button:has-text("Submit")')
-        await submitButton.nth(2).click()
-        await submitButton.nth(1).click()
-        await submitButton.nth(0).click()
+        this.page.fill('section:has-text("Comment (optional)") textarea', comment);
+        this.page.click('button:has-text("Submit")')
     }
 }
