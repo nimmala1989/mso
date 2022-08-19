@@ -11,7 +11,7 @@ const config: PlaywrightTestConfig = {
     globalTimeout: 3000000,
 
     // Number of times to execution tests if failed
-    retries: 0,
+    retries: 1,
 
     // Location of the test cases
     testDir: __dirname,
