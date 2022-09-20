@@ -27,13 +27,41 @@ test.describe.serial("On Rules Page", async () => {
         await customWaits.waitForFiltersToLoad()
     })
 
-    test('Create Tag conditions and verify', async() => {
+    test('Create Allowed Tag conditions and verify', async() => {
+        await tagCondition.navigateToPage()
+        await tagCondition.openCreatePopup()
+        await tagCondition.enterName("testing")
+        await tagCondition.selectType("Allowed")
+        await tagCondition.selectEnable()
+        await tagCondition.enterExpiration('7/22/2026')
+        const contextFields = await tagCondition.openContexts()
+        await contextFields.selectProd()
+        await contextFields.clickOk()
+        await tagCondition.submit()
+        await tagCondition.enterComment()
+    })
+
+    test('Create Always Tag conditions and verify', async() => {
+        await tagCondition.navigateToPage()
+        await tagCondition.openCreatePopup()
+        await tagCondition.enterName("testing")
+        await tagCondition.selectType("Always")
+        await tagCondition.selectEnable()
+        await tagCondition.enterExpiration('7/22/2026')
+        const contextFields = await tagCondition.openContexts()
+        await contextFields.selectProd()
+        await contextFields.clickOk()
+        await tagCondition.submit()
+        await tagCondition.enterComment()
+    })
+
+    test('Create Never Tag conditions and verify', async() => {
         await tagCondition.navigateToPage()
         await tagCondition.openCreatePopup()
         await tagCondition.enterName("testing")
         await tagCondition.selectType("Never")
         await tagCondition.selectEnable()
-        // await tagCondition.enterExpiration('7/22/2022')
+        await tagCondition.enterExpiration('7/22/2026')
         const contextFields = await tagCondition.openContexts()
         await contextFields.selectProd()
         await contextFields.clickOk()
