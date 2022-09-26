@@ -1,4 +1,4 @@
-import { Context } from './context.po';
+import { Context } from './context-dialogue.po';
 import { Create } from './create.po';
 import { EditOrView } from './editOrView.po';
 import { Main } from './main.po';

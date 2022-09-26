@@ -86,6 +86,10 @@ export class Context {
         await this.page.fill('#lotValue', value);
     }
 
+    async getSelectedContext() {
+        return this.page.textContent('[formarrayname="contexts"]')
+    }
+
     async clickOk() {
         await this.page.click('button:has-text("Ok")')
     }

@@ -1,8 +1,8 @@
 import { test } from '@playwright/test';
-import { Endpoints } from '../../config/setup'
+import { Endpoints } from '../../config/setup';
+import { CustomWaits } from '../../pages/common';
 import { Login } from '../../pages/login.po';
-import { Create } from '../../pages/tagsCondition/create.po'
-import { Comment, CustomWaits } from '../../pages/common';
+import { Create } from '../../pages/tagsCondition/create.po';
 
 test.describe.serial("On Rules Page", async () => {
     let login: Login 
@@ -25,6 +25,7 @@ test.describe.serial("On Rules Page", async () => {
         await login.loginToTheApplication()
         await login.selectClient('FAB2')
         await customWaits.waitForFiltersToLoad()
+        await page.pause()
     })
 
     test('Create Allowed Tag conditions and verify', async() => {
@@ -37,6 +38,12 @@ test.describe.serial("On Rules Page", async () => {
         const contextFields = await tagCondition.openContexts()
         await contextFields.selectProd()
         await contextFields.clickOk()
+        const assignedProcess = await tagCondition.openAssignedProcesses()
+        await assignedProcess.selectSamplingProcess()
+        await assignedProcess.clickOk()
+        const assignedRules = await tagCondition.openAssignedRules()
+        await assignedRules.selectSamplingRules()
+        await assignedRules.clickOk()
         await tagCondition.submit()
         await tagCondition.enterComment()
     })
