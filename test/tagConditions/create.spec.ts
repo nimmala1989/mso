@@ -4,7 +4,7 @@ import { CustomWaits } from '../../pages/common';
 import { Login } from '../../pages/login.po';
 import { Create } from '../../pages/tagsCondition/create.po';
 
-test.describe.serial("On Rules Page", async () => {
+test.describe.serial("Create different types of tag conditions", async () => {
     let login: Login 
     let customWaits: CustomWaits
     let tagCondition: Create;

@@ -7,7 +7,7 @@ import { Table } from '../../pages/tagsCondition/table.po';
 import { EditOrView } from '../../pages/tagsCondition/editOrView.po';
 
 
-test.describe.serial.only("Update Tag Conditions", async () => {
+test.describe.serial("Update Tag Conditions", async () => {
     let login: Login
     let customWaits: CustomWaits
     let tagCondition: Create;
