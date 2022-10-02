@@ -1,6 +1,9 @@
 import { expect, Page } from "@playwright/test";
 import { Action } from '../../utilities/actions';
 import { CommonActions } from "../../utilities/common";
+import { AssignedProcesses } from "./assigned-processes-dialogue.po";
+import { AssignedRules } from "./assigned-rules-dialogue.po";
+import { Context } from "./context-dialogue.po";
 
 const commonActions = new CommonActions();
 
@@ -26,8 +29,10 @@ export class EditOrView {
     get name() {
         const field = this.getForm.locator('#tagName')
         return {
-            async enter(value: string) {
-                await field.fill(value);
+            async update(value: string) {
+                value = `${value} - ${CommonActions.randomString(4)}`
+                await field.fill(value)
+                return value
             },
             async verify(value: string) {
                 const actualValue = await field.inputValue()
@@ -38,9 +43,12 @@ export class EditOrView {
 
     get type() {
         const field = this.getForm.locator('#tagType')
+        let self = this
         return {
-            async enter(value: string) {
-                await field.selectOption(value);
+            async update(value: string) {
+                await field.click();
+                await self.page.click(`div[role="listbox"] >> text=${value}`);
+                return value
             },
             async verify(value: string) {
                 await expect(field).toHaveText(value)
@@ -49,13 +57,19 @@ export class EditOrView {
     }
 
     get enable() {
-        const field = this.getForm.locator('[formcontrolname="enabled"] input')
+        const field = this.getForm.locator('[formcontrolname="enabled"] span.mat-checkbox-inner-container')
         return {
             async check() {
-                await field.check();
+                let status = await field.isChecked()
+                if (!status)
+                    await field.click();
+                return true
             },
             async uncheck() {
-                await field.uncheck();
+                let status = await field.isChecked()
+                if (status)
+                    await field.click();
+                return false
             },
             async verify(isChecked: boolean) {
                 await expect(field).toBeChecked({ checked: isChecked })
@@ -64,20 +78,27 @@ export class EditOrView {
     }
 
     get expiration() {
-        const field = this.getForm.locator('[formcontrolname="expirationCheckbox"] input')
+        const field = this.getForm.locator('[formcontrolname="expirationCheckbox"] span.mat-checkbox-inner-container')
         const inputField = this.getForm.locator('[formcontrolname="tagExpiration"]')
         return {
             async check() {
-                await field.check();
+                let status = await field.isChecked()
+                if (!status)
+                    await field.click();
+                return true
             },
             async uncheck() {
-                await field.uncheck();
+                let status = await field.isChecked()
+                if (status)
+                    await field.click();
+                return false
             },
             async verify(isChecked: boolean) {
                 expect(field).toBeChecked({ checked: isChecked })
             },
             async input(value: string) {
                 await inputField.fill(value)
+                return value
             },
             async verifyInput(value: string) {
                 const actualValue = await inputField.inputValue()
@@ -88,28 +109,95 @@ export class EditOrView {
 
     get context() {
         const field = this.getForm.locator('[formarrayname="contexts"]')
+        const self = this
         return {
             async verify(verify: string) {
                 await expect(field).toHaveText(verify)
+            },
+            async removeContextAndVerify(byIndex: number) {
+                let recordCount = await field.locator("div div .fa-minus-circle").count()
+                await field.locator(`div div:nth-child(${byIndex}) .fa-minus-circle`).click()
+                let updatedCecordCount = await field.locator("div div .fa-minus-circle").count()
+                expect(recordCount - 1).toEqual(updatedCecordCount)
+            },
+            async addNewContext() {
+                let recordCount = await field.locator("div div .fa-minus-circle").count()
+                await self.page.click('div label:has-text("Contexts") + div a')
+                const contextFields = new Context(self.page);
+                await contextFields.selectProd(1)
+                await contextFields.clickOk()
+                let updatedCecordCount = await field.locator("div div .fa-minus-circle").count()
+                expect(recordCount + 1).toEqual(updatedCecordCount)
+                return await contextFields.getSelectedContext() || ""
             }
         }
     }
 
     get assignedProcesses() {
         const field = this.getForm.locator('span div:has-text("Assigned Processes") ~ [class="form-row"]')
+        const self = this
         return {
             async verify(verify: string) {
                 await expect(field).toHaveText(verify)
+            },
+            async removeAssignedProcessesAndVerify() {
+                let recordCount = await field.locator(".fa-minus-circle").count()
+                await field.locator(`.fa-minus-circle`).click()
+                let updatedCecordCount = await field.locator(".fa-minus-circle").count()
+                expect(recordCount - 1).toEqual(updatedCecordCount)
+            },
+            async addNewAssignedProcesses() {
+                let recordCount = await field.locator(".fa-minus-circle").count()
+                await self.page.click('div label:has-text("Assigned Processes") + div a')
+                const assignedProcess = new AssignedProcesses(self.page);
+                await assignedProcess.selectSamplingProcess(2)
+                await assignedProcess.clickOk()
+                let updatedCecordCount = await field.locator(".fa-minus-circle").count()
+                expect(recordCount + 1).toEqual(updatedCecordCount)
+                return await assignedProcess.getSelectedValues() || ""
             }
         }
     }
 
     get assignedRules() {
         const field = this.getForm.locator('span div:has-text("Assigned Rules") ~ [class="form-row"]')
+        const self = this
         return {
             async verify(verify: string) {
                 await expect(field).toHaveText(verify)
+            },
+            async removeAssignedRulesAndVerify(byIndex: number) {
+                let recordCount = await field.locator('ul > span [class="rule-name"] .fa-minus-circle').count()
+                await field.locator(`ul > span:nth-child(${byIndex}) [class="rule-name"] .fa-minus-circle`).click()
+                let updatedCecordCount = await field.locator('ul > span [class="rule-name"] .fa-minus-circle').count()
+                expect(recordCount - 1).toEqual(updatedCecordCount)
+            },
+            async addNewAssignedRules(byIndex: number) {
+                let recordCount = await field.locator('ul > span [class="rule-name"] .fa-minus-circle').count()
+                await self.page.click('div label:has-text("Assigned Rules") + div a')
+                const assignedRules = new AssignedRules(self.page);
+                await assignedRules.selectSamplingRules(byIndex)
+                await assignedRules.clickOk()
+                let updatedCecordCount = await field.locator('ul > span [class="rule-name"] .fa-minus-circle').count()
+                expect(recordCount + 1).toEqual(updatedCecordCount)
+                return await assignedRules.getSelectedValues() || ""
             }
         }
+    }
+
+    async saveChanges() {
+        await this.page.click('#saveButton')
+
+        // Proceed
+        await this.page.click('button:has-text("Proceed")')
+        await this.page.click('textarea');
+        await this.page.fill('textarea', 'testing here');
+        await this.page.click('mat-dialog-container:has-text("Comment") button:has-text("Submit")');
+
+        // check success message
+        await expect(this.page.locator("app-alert .alert i ~ span")).toHaveText("Saved Successfully")
+
+        // Close Message
+        await this.page.click('[class="close"]')
     }
 }

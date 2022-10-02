@@ -7,7 +7,7 @@ import { Table } from '../../pages/tagsCondition/table.po';
 import { EditOrView } from '../../pages/tagsCondition/editOrView.po';
 
 
-test.describe.serial.only("On Rules Page", async () => {
+test.describe.serial("Create and verify value", async () => {
     let login: Login
     let customWaits: CustomWaits
     let tagCondition: Create;
@@ -47,7 +47,6 @@ test.describe.serial.only("On Rules Page", async () => {
 
         // Create a tag condition
         await tagCondition.navigateToPage()
-        // await page.pause()
         await tagCondition.openCreatePopup()
         data.name = await tagCondition.enterName("testing")
         data.type = await tagCondition.selectType("Allowed")
@@ -81,11 +80,6 @@ test.describe.serial.only("On Rules Page", async () => {
     test('Verify type is correct', async () => {
         await table.selectByName(data.name)
         await editOrView.type.verify(data.type)
-    })
-
-    test("Verify Enable check value is correct", async () => {
-        await table.selectByName(data.name)
-        await editOrView.enable.verify(data.enabled)
     })
 
     test("Verify Enable checkbox status is correct", async () => {
