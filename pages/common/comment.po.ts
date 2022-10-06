@@ -15,4 +15,9 @@ export class Comment {
         await this.page.click('app-modal-footer .btn-primary');
         await this.page.waitForSelector('app-transaction-entry', { state: 'hidden'})
     }
+
+    async enterCommentAndSubmit(message: string) {
+        await this.enterComment(message)
+        await this.submit()
+    }
 }
