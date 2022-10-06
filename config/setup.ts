@@ -13,7 +13,13 @@ export const Endpoints = {
     },
     createTagConditions: function() {
         return `/mso20/api/tagconditions`
-    }
+    },
+    getRulesGroup: function (client: string = 'FAB2') {
+        return `/mso20/api/rulegroups/facility/${client}`
+    },
+    deleteRuleGroup: function (id: string) {
+        return `/mso20/api/rulegroups/facility/FAB2/ruleGroup/${id}`
+    },
 }
 
 export const Credentials = {

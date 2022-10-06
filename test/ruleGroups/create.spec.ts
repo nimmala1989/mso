@@ -2,7 +2,7 @@ import { test } from '@playwright/test';
 import { Endpoints } from '../../config/setup';
 import { Comment, CustomWaits } from '../../pages/common';
 import { Login } from '../../pages/login.po';
-import { Create } from '../../pages/ruleGroups';
+import { Create, Table, APIs } from '../../pages/ruleGroups';
 
 test.describe.serial("On Rules Group Page", async () => {
     let login: Login
@@ -10,13 +10,18 @@ test.describe.serial("On Rules Group Page", async () => {
     let authorizationToken: string
     let comment: Comment
     let customWaits: CustomWaits
+    let table: Table
+    let ruleGroupApis: APIs
+    let tempData = { id: "", displayName: "" }
 
     test.beforeEach(async ({ page }) => {
         login = new Login(page);
         create = new Create(page);
         comment = new Comment(page)
         customWaits = new CustomWaits(page)
-        
+        table = new Table(page)
+        ruleGroupApis = new APIs()
+
         page.on('request', async request => {
             let allHeaders = await request.allHeaders()
             if (allHeaders.authorization && allHeaders.authorization != 'Bearer null') {
@@ -32,8 +37,8 @@ test.describe.serial("On Rules Group Page", async () => {
     test("Create a percent rule with mandatory fields and verify it is created", async () => {
         await create.navigateToPage()
         await create.openCreatePopup()
-        await create.enterId("testing")
-        await create.enterDisplay("testing")
+        tempData.id = await create.enterId("testing")
+        tempData.displayName = await create.enterDisplay("testing")
         await create.selectRandomColor()
         await create.enterDescription("testing")
         await create.enterDynamicSkipWIPLimit(34)
@@ -42,5 +47,11 @@ test.describe.serial("On Rules Group Page", async () => {
         await create.dynamicToolStatusCondition.check()
         await create.submit()
         await comment.enterCommentAndSubmit("test rule groups")
+        //Verify record is created
+        await table.selectRowByName(tempData.id, tempData.displayName)
+    })
+
+    test.afterEach(async () => {
+        await ruleGroupApis.deleteRuleGroup(tempData.id, authorizationToken)
     })
 })

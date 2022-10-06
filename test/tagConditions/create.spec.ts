@@ -25,7 +25,6 @@ test.describe.serial("Create different types of tag conditions", async () => {
         await login.loginToTheApplication()
         await login.selectClient('FAB2')
         await customWaits.waitForFiltersToLoad()
-        await page.pause()
     })
 
     test('Create Allowed Tag conditions and verify', async() => {

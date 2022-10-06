@@ -77,7 +77,6 @@ export class Create {
             async check() {
                 let status = await checkbox.isChecked()
                 if (!status)
-                    await self.page.pause()
                     await checkbox.click();
                 return true
             },
