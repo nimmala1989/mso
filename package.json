@@ -13,7 +13,6 @@
     "@types/luxon": "^2.4.0",
     "date-and-time": "^2.4.1",
     "got": "^11.8.5",
-    "hex-rgb": "^5.0.0",
     "junit-cli-report-viewer": "^1.5.2",
     "luxon": "^2.5.0",
     "playwright": "^1.25.0",

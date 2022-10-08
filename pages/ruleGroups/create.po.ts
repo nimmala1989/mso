@@ -2,7 +2,7 @@ import { expect, Locator, Page } from "@playwright/test";
 import { Action } from '../../utilities/actions';
 import { CommonActions } from "../../utilities/common";
 import RuleGroupLocators from "./locators";
-import hexRgb from 'hex-rgb';
+// import hexRgb from 'hex-rgb';
 
 const actions: Action = new Action()
 
@@ -80,31 +80,66 @@ export class Create {
                 return colorcode
             },
             async verify(expectedValue: string) {
-                const color = hexRgb(expectedValue, {format: 'css'});
-                await expect(field).toHaveCSS('background-color', color);
+                const color = CommonActions.hexToRgb(expectedValue)
+                await expect(field).toHaveCSS('background-color', `rgb(${color?.r}, ${color?.g}, ${color?.b})`);
             }
         }
     }
 
-    async enterDescription(value: string) {
-        await this.base.locator(this.ruleGroupLocators.description_textbox).fill(value)
-        return value;
-    }
-
-    async enterDynamicSkipWIPLimit(value: number) {
-        await this.base.locator(this.ruleGroupLocators.dynamicSkipWipLimit_textbox).fill(value.toString())
-        return value;
-    }
-
-    async selectMSOToolGroup(valueToSelect: string | number = 1) {
-        await this.base.locator(this.ruleGroupLocators.toolMsoGroup_dropdown).click()
-        if (typeof (valueToSelect) == 'number') {
-            await actions.select.byIndex(valueToSelect, this.page)
-        } else {
-            await actions.select.byText(valueToSelect, this.page)
+    get description() {
+        const field = this.base.locator(this.ruleGroupLocators.description_textbox)
+        return {
+            async enter(value: string) {
+                value = `${value} - ${CommonActions.randomString(4)}`
+                await field.fill(value)
+                return value;
+            },
+            async verify(expectedValue: string) {
+                const actualValue = await field.inputValue()
+                expect(actualValue).toBe(expectedValue)
+            }
         }
-        let selectedValue = await this.base.locator(this.ruleGroupLocators.toolMsoGroup_selectedOption).textContent()
-        return selectedValue;
+    }
+
+    get dynamicSkipWIPLimit() {
+        const field = this.base.locator(this.ruleGroupLocators.dynamicSkipWipLimit_textbox)
+        return {
+            async enter(value: number) {
+                await field.fill(value.toString())
+                return value;
+            },
+            async verify(expectedValue: number) {
+                const actualValue = await field.inputValue()
+                expect(actualValue).toBe(expectedValue.toString())
+            }
+        }
+    }
+
+    get msoToolGroup() {
+        const field = this.base.locator(this.ruleGroupLocators.toolMsoGroup_dropdown)
+        const input_field = this.base.locator(this.ruleGroupLocators.toolMsoGroup_selectedOption)
+        const delete_button = this.base.locator(this.ruleGroupLocators.toolMsoGroup_deleteButton)
+        const self = this
+        return {
+            async select(valueToSelect: string | number = 1) {
+                await field.click()
+                if (typeof (valueToSelect) == 'number') {
+                    await actions.select.byIndex(valueToSelect, self.page)
+                } else {
+                    await actions.select.byText(valueToSelect, self.page)
+                }
+                return input_field.textContent()
+            },
+            async verify(expectedValue: string) {
+                const actualValue = await input_field.textContent()
+                expect(actualValue).toBe(expectedValue.toString())
+            },
+            async removeAndVerify() {
+                await delete_button.click()
+                const actualValue = await input_field.textContent()
+                expect(actualValue).toBe("")
+            }
+        }
     }
 
     get linkRequireTagCondition() {
@@ -122,6 +157,10 @@ export class Create {
                 if (status)
                     await checkbox.click();
                 return false
+            },
+            async verify(expected: boolean) {
+                let status = await checkbox.isChecked()
+                expect(status).toBe(expected)
             }
         }
     }
@@ -141,6 +180,10 @@ export class Create {
                 if (status)
                     await checkbox.click();
                 return false
+            },
+            async verify(expected: boolean) {
+                let status = await checkbox.isChecked()
+                expect(status).toBe(expected)
             }
         }
     }

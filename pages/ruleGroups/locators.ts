@@ -16,6 +16,7 @@ export default class RuleGroupLocators {
     dynamicSkipWipLimit_textbox = '#dynamicSkipWipLimit'
     toolMsoGroup_dropdown = '[class="select-search"] mat-select'
     toolMsoGroup_selectedOption = '.mat-select-value .mat-select-min-line'
+    toolMsoGroup_deleteButton = 'button.del-btn'
     linksReqAllowedTagCond_checkbox = '[formcontrolname="linksReqAllowedTagCond"] .mat-checkbox-inner-container'
     dynamicToolStatusCond_checkbox = '[formcontrolname="dynamicToolStatusCond"] .mat-checkbox-inner-container'
     cancel_dialogue_button = 'app-modal-footer button:has-text("Cancel")'

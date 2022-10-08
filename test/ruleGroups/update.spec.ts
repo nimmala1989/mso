@@ -39,9 +39,9 @@ test.describe.serial("On Rules Group Page", async () => {
         tempData.id = await create.id.enter("testing")
         tempData.displayName = await create.display.enter("testing")
         tempData.color = await create.color.selectRandomColor()
-        tempData.Description = await create.enterDescription("testing")
-        tempData.DynamicSkipWIPLimit = await create.enterDynamicSkipWIPLimit(34)
-        tempData.ToolMSOGroup = (await create.selectMSOToolGroup(1))!
+        tempData.Description = await create.description.enter("testing")
+        tempData.DynamicSkipWIPLimit = await create.dynamicSkipWIPLimit.enter(34)
+        tempData.ToolMSOGroup = (await create.msoToolGroup.select(1))!
         tempData.Linksrequiretagcondition = await create.linkRequireTagCondition.check()
         tempData.Dynamictoolstatuscondition = await create.dynamicToolStatusCondition.check()
         await create.submit()
@@ -62,30 +62,42 @@ test.describe.serial("On Rules Group Page", async () => {
         await create.display.verify(updatedData.displayName)
     })
 
-    test("Update and Verify Rule Group Color text", async () => {
+    test.skip("Update and Verify Rule Group Color text", async () => {
         await create.color.verify(tempData.color)
         updatedData.color = await create.color.selectRandomColor()
         await create.color.verify(updatedData.color)
     })
 
     test("Update and Verify Rule Group Description text", async () => {
-
+        await create.description.verify(tempData.Description)
+        updatedData.Description = await create.description.enter("new Description value")
+        await create.description.verify(updatedData.Description)
     })
 
     test("Update and Verify Rule Group Dynamic Skip WIP Limit text", async () => {
-
+        await create.dynamicSkipWIPLimit.verify(tempData.DynamicSkipWIPLimit)
+        updatedData.DynamicSkipWIPLimit = await create.dynamicSkipWIPLimit.enter(234)
+        await create.dynamicSkipWIPLimit.verify(updatedData.DynamicSkipWIPLimit)
     })
 
     test("Delete, Update and Verify Rule Group Tool MSO Group text", async () => {
+        await create.msoToolGroup.verify(tempData.ToolMSOGroup)
+        updatedData.ToolMSOGroup = (await create.msoToolGroup.select(1))!
+        await create.msoToolGroup.verify(updatedData.ToolMSOGroup)
 
+        await create.msoToolGroup.removeAndVerify()
     })
 
-    test("Update and Verify Rule Group Links require tag condition text", async () => {
-
+    test("Update and Verify Rule Group Links require tag condition boolean", async () => {
+        await create.linkRequireTagCondition.verify(tempData.Linksrequiretagcondition)
+        updatedData.Linksrequiretagcondition = await create.linkRequireTagCondition.uncheck()
+        await create.linkRequireTagCondition.verify(updatedData.Linksrequiretagcondition)
     })
 
-    test("Update and Verify Rule Group Dynamic tool status condition text", async () => {
-
+    test("Update and Verify Rule Group Dynamic tool status condition boolean", async () => {
+        await create.dynamicToolStatusCondition.verify(tempData.Dynamictoolstatuscondition)
+        updatedData.Dynamictoolstatuscondition = await create.dynamicToolStatusCondition.uncheck()
+        await create.dynamicToolStatusCondition.verify(updatedData.Dynamictoolstatuscondition)
     })
 
     test.afterAll(async () => {

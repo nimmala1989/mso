@@ -12,7 +12,7 @@ test.describe.serial("On Rules Group Page", async () => {
     let customWaits: CustomWaits
     let table: Table
     let ruleGroupApis: APIs
-    let tempData = { id: "", displayName: "", color: "" }
+    let tempData = { id: "", displayName: "", color: "", Description: "", DynamicSkipWIPLimit: 0, ToolMSOGroup: "", Linksrequiretagcondition: false, Dynamictoolstatuscondition: false }
 
     test.beforeEach(async ({ page }) => {
         login = new Login(page);
@@ -40,11 +40,11 @@ test.describe.serial("On Rules Group Page", async () => {
         tempData.id = await create.id.enter("testing")
         tempData.displayName = await create.display.enter("testing")
         tempData.color = await create.color.selectRandomColor()
-        await create.enterDescription("testing")
-        await create.enterDynamicSkipWIPLimit(34)
-        await create.selectMSOToolGroup(1)
-        await create.linkRequireTagCondition.check()
-        await create.dynamicToolStatusCondition.check()
+        tempData.Description = await create.description.enter("testing")
+        tempData.DynamicSkipWIPLimit = await create.dynamicSkipWIPLimit.enter(34)
+        tempData.ToolMSOGroup = (await create.msoToolGroup.select(1))!
+        tempData.Linksrequiretagcondition = await create.linkRequireTagCondition.check()
+        tempData.Dynamictoolstatuscondition = await create.dynamicToolStatusCondition.check()
         await create.submit()
         await comment.enterCommentAndSubmit("test rule groups")
         //Verify record is created
