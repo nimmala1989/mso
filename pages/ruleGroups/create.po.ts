@@ -188,6 +188,11 @@ export class Create {
         }
     }
 
+    async delete() {
+        await this.base.locator(this.ruleGroupLocators.delete_button).click()
+        await this.page.click(this.ruleGroupLocators.delete_dialogue_button)
+    }
+
     async submit() {
         await this.base.locator(this.ruleGroupLocators.submit_create_button).click()
     }

@@ -33,7 +33,7 @@ export class Table {
         await this.page.waitForSelector(this.locators.ruleGroupSideDialogue)
     }
 
-    async waitForRuleToDisappear(ruleName: string) {
-        await this.get_row_by_name(ruleName).waitFor({ state: "hidden" })
+    async waitForRuleToDisappear(id: string, display: string) {
+        await this.get_row_by_name(`${display} (${id})`).waitFor({ state: "hidden" })
     }
 }

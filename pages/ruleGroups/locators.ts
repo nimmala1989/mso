@@ -26,6 +26,7 @@ export default class RuleGroupLocators {
     ruleGroupSideDialogue = 'mat-drawer[mode="side"]'
     ruleGroupSideDialogueLabel = '.rule-form-border-bottom > div > span'
     delete_button = 'button:has-text("Delete")'
+    delete_dialogue_button = 'app-delete-confirmation .btn-danger'
     toolMsoGroup_remove = 'button.del-btn'
     save_button = '#saveButton'
     close_button = '[container="body"][aria-label="Close"]'
