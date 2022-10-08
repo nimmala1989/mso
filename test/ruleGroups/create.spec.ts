@@ -12,7 +12,7 @@ test.describe.serial("On Rules Group Page", async () => {
     let customWaits: CustomWaits
     let table: Table
     let ruleGroupApis: APIs
-    let tempData = { id: "", displayName: "" }
+    let tempData = { id: "", displayName: "", color: "" }
 
     test.beforeEach(async ({ page }) => {
         login = new Login(page);
@@ -37,9 +37,9 @@ test.describe.serial("On Rules Group Page", async () => {
     test("Create a percent rule with mandatory fields and verify it is created", async () => {
         await create.navigateToPage()
         await create.openCreatePopup()
-        tempData.id = await create.enterId("testing")
-        tempData.displayName = await create.enterDisplay("testing")
-        await create.selectRandomColor()
+        tempData.id = await create.id.enter("testing")
+        tempData.displayName = await create.display.enter("testing")
+        tempData.color = await create.color.selectRandomColor()
         await create.enterDescription("testing")
         await create.enterDynamicSkipWIPLimit(34)
         await create.selectMSOToolGroup(1)

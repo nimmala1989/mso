@@ -15,12 +15,15 @@ export default class RuleGroupLocators {
     description_textbox = '[formcontrolname="description"]'
     dynamicSkipWipLimit_textbox = '#dynamicSkipWipLimit'
     toolMsoGroup_dropdown = '[class="select-search"] mat-select'
+    toolMsoGroup_selectedOption = '.mat-select-value .mat-select-min-line'
     linksReqAllowedTagCond_checkbox = '[formcontrolname="linksReqAllowedTagCond"] .mat-checkbox-inner-container'
     dynamicToolStatusCond_checkbox = '[formcontrolname="dynamicToolStatusCond"] .mat-checkbox-inner-container'
     cancel_dialogue_button = 'app-modal-footer button:has-text("Cancel")'
     submit_create_button = 'app-modal-footer button:has-text("Create")'
 
+    // Side Dialogue
     ruleGroupSideDialogue = 'mat-drawer[mode="side"]'
+    ruleGroupSideDialogueLabel = '.rule-form-border-bottom > div > span'
     delete_button = 'button:has-text("Delete")'
     toolMsoGroup_remove = 'button.del-btn'
     save_button = '#saveButton'
