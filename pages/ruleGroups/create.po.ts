@@ -196,11 +196,4 @@ export class Create {
     async submit() {
         await this.base.locator(this.ruleGroupLocators.submit_create_button).click()
     }
-
-    async enterComment() {
-        await this.page.click('textarea');
-        await this.page.fill('textarea', 'testing here');
-        await this.page.click('mat-dialog-container:has-text("Comment") button:has-text("Submit")');
-        // await this.page.click('#mat-dialog-2 button:has-text("Submit")');
-    }
 }
