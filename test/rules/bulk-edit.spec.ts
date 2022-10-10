@@ -17,7 +17,8 @@ test.describe.serial("On Rules Page", async () => {
     let customWaits: CustomWaits
     let rulesData: { name: string, id: string }[] = []
 
-    test.beforeEach(async ({ page }) => {
+    test.beforeAll(async ({ browser }) => {
+        const page = await browser.newPage();
         current_page = page
         login = new Login(page);
         editOrView = new EditOrView(page);
@@ -46,6 +47,9 @@ test.describe.serial("On Rules Page", async () => {
         rulesData.push(rule2);
         rulesData.push(rule3);
         await current_page.reload()
+    })
+
+    test.beforeEach(async () => {
         await table.selectCheckboxByName(rulesData[0].name)
         await table.selectCheckboxByName(rulesData[1].name)
         await table.selectCheckboxByName(rulesData[2].name)
@@ -58,17 +62,30 @@ test.describe.serial("On Rules Page", async () => {
         await bulkActions.commentAndSave()
     })
 
-    test("Perform bulk delete and verify all the rules are delete", async () => {
-        await bulkActions.selectDelete()
-        await bulkActions.commentAllAndSave()
-    })
-
     test("Perform bulk disable and verify all the rules are disabled", async () => {
-
+        await bulkActions.selectEnable()
+        await bulkActions.commentAllAndSave()
+        await bulkActions.waitForActionCompleteMessage()
+        await table.recordIsEnabled(rulesData[0].name)
+        await table.recordIsEnabled(rulesData[1].name)
+        await table.recordIsEnabled(rulesData[2].name)
     })
 
     test("Perform bulk enable and verify all the rules are enabled", async () => {
+        await bulkActions.selectDisable()
+        await bulkActions.commentAllAndSave()
+        await bulkActions.waitForActionCompleteMessage()
+        await table.recordIsDisabled(rulesData[0].name)
+        await table.recordIsDisabled(rulesData[1].name)
+        await table.recordIsDisabled(rulesData[2].name)
+    })
 
+    test("Perform bulk delete and verify all the rules are delete", async () => {
+        await bulkActions.selectDelete()
+        await bulkActions.commentAllAndSave()
+        await table.waitForRuleToDisappear(rulesData[0].name)
+        await table.waitForRuleToDisappear(rulesData[1].name)
+        await table.waitForRuleToDisappear(rulesData[2].name)
     })
 
     test.afterAll(async () => {

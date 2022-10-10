@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 import { CommonActions } from "../../utilities/common";
 import { Comment } from '../common/comment.po';
 
@@ -47,6 +47,7 @@ export class BulkActions {
 
     async clickSave() {
         await this.page.locator('button:has-text("Apply Changes")').click();
+        await this.page.click('app-modal-footer button:has-text("Proceed")')
     }
 
     async commentAndSave(comment: string = "created rule with automation script") {
@@ -55,7 +56,16 @@ export class BulkActions {
     }
 
     async commentAllAndSave(comment: string = "created rule with automation script") {
-        this.page.fill('section:has-text("Comment (optional)") textarea', comment);
-        this.page.click('button:has-text("Submit")')
+        let outdatedScope = this.page.locator('app-modal-footer button:has-text("Proceed")')
+        if(await outdatedScope.isVisible({timeout: 5000})) {
+            await outdatedScope.click()
+        }
+        await this.page.fill('section:has-text("Comment (optional)") textarea', comment);
+        await this.page.click('button:has-text("Submit")')
+    }
+
+    async waitForActionCompleteMessage(expectedMessage: string = 'Action successfully completed') {
+        let message = this.page.locator('snack-bar-container simple-snack-bar > span')
+        expect(await message.textContent()).toBe(expectedMessage)
     }
 }

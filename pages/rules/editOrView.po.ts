@@ -32,11 +32,14 @@ export class EditOrView {
 
     async clickSave() {
         await this.page.click('#saveButton');
+        await this.page.click('app-modal-footer button:has-text("Proceed")')
     }
 
     async commentAndSave(comment: string = "created rule with automation script") {
         await this.comment.enterComment(comment);
         await this.comment.submit();
+        await this.page.waitForLoadState("networkidle", { timeout: 120000 });
+        await this.page.waitForTimeout(5000)
     }
 
     async deleteRulesCreateByAutomation(auth: string) {
