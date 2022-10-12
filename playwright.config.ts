@@ -19,7 +19,7 @@ const config: PlaywrightTestConfig = {
     testIgnore: '**/*ignore',
 
     // Limit the number of workers on CI, use default locally
-    workers: process.env.CI ? 2 : 4,
+    workers: process.env.CI ? 2 : 1,
 
     // Forbid test.only on CI
     forbidOnly: !!process.env.CI,
