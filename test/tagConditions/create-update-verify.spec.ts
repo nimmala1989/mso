@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { BrowserContext, test } from '@playwright/test';
 import { Endpoints } from '../../config/setup';
 import { CustomWaits } from '../../pages/common';
 import { Login } from '../../pages/login.po';
@@ -32,9 +32,11 @@ test.describe.serial("Update Tag Conditions", async () => {
         updated_assignedProcesses: "",
         updated_assignedRules: ""
     }
+    let context: BrowserContext
 
     test.beforeAll(async ({ browser }) => {
-        const page = await browser.newPage();
+        context = await browser.newContext();
+        const page = await context.newPage();
         login = new Login(page);
         customWaits = new CustomWaits(page);
         tagCondition = new Create(page);
@@ -130,7 +132,7 @@ test.describe.serial("Update Tag Conditions", async () => {
         await editOrView.saveChanges()
     })
 
-    test("Verify Assigned Processes value can be added", async () => {
+    test.skip("Verify Assigned Processes value can be added", async () => {
         await table.selectByName(data.name)
         await editOrView.assignedProcesses.addNewAssignedProcesses()
         await editOrView.saveChanges()
@@ -146,5 +148,9 @@ test.describe.serial("Update Tag Conditions", async () => {
         await table.selectByName(data.name)
         await editOrView.assignedRules.addNewAssignedRules(2)
         await editOrView.saveChanges()
+    })
+
+    test.afterAll(async ({  }) => {
+        await context.close()
     })
 })

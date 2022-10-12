@@ -52,6 +52,15 @@ export class EditOrView {
         }
     }
 
+    async getRuleId(name: string) {
+        const rules: any = await this.getRules()
+        for (let rule of rules) {
+            if (rule.smpRuleName.includes(name)) {
+                return rule.smpRuleId
+            }
+        }
+    }
+
     async getRules() {
         const res = await got(`${Endpoints.baseUrl}${Endpoints.getRules()}`)
         return JSON.parse(res.body);

@@ -18,8 +18,13 @@ export class Create {
     }
 
     async openRulesPopup() {
-        await this.page.waitForSelector('mat-dialog-container #rule-form-container', {state: 'detached'})
-        await this.page.click('button:has-text("Create a rule")', {force: true});
+        await this.page.waitForSelector('mat-dialog-container #rule-form-container', { state: 'detached' })
+        await this.page.click('button:has-text("Create a rule")', { force: true });
+    }
+
+    async closeRulesPopup() {
+        await this.page.locator('[aria-label="Close"]').click();
+        await this.page.locator('button:has-text("Yes")').click();
     }
 
     async instantiate() {
@@ -71,7 +76,7 @@ export class Create {
         }
     }
 
-    async selectDecision(value: "All" | "Tag" | "Skip" ) {
+    async selectDecision(value: "All" | "Tag" | "Skip") {
         await this.form.decision.select()
         await this.form.decision.selectDecisionType(value)
     }

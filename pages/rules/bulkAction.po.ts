@@ -11,6 +11,10 @@ export class BulkActions {
         this.comment = new Comment(page)
     }
 
+    async waitForBulkActionToDisapper() {
+        await this.page.locator('#dropdownBulkMenu').waitFor({state: 'hidden'})
+    }
+
     async openActions() {
         await this.page.click('[id="dropdownBulkMenu"]');
     }

@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { BrowserContext, test } from '@playwright/test';
 import { Endpoints } from '../../config/setup';
 import { Comment, CustomWaits } from '../../pages/common';
 import { Login } from '../../pages/login.po';
@@ -14,9 +14,11 @@ test.describe.serial("On Rules Group Page", async () => {
     let ruleGroupApis: APIs
     let tempData = { id: "", displayName: "", color: "", Description: "", DynamicSkipWIPLimit: 0, ToolMSOGroup: "", Linksrequiretagcondition: false, Dynamictoolstatuscondition: false }
     let updatedData = { id: "", displayName: "", color: "", Description: "", DynamicSkipWIPLimit: 0, ToolMSOGroup: "", Linksrequiretagcondition: false, Dynamictoolstatuscondition: false }
-
+    let context: BrowserContext
+    
     test.beforeAll(async ({ browser }) => {
-        const page = await browser.newPage();
+        context = await browser.newContext();
+        const page = await context.newPage();
         login = new Login(page);
         create = new Create(page);
         comment = new Comment(page)
@@ -100,7 +102,8 @@ test.describe.serial("On Rules Group Page", async () => {
         await create.dynamicToolStatusCondition.verify(updatedData.Dynamictoolstatuscondition)
     })
 
-    test.afterAll(async () => {
+    test.afterAll(async ({}) => {
         await ruleGroupApis.deleteRuleGroup(tempData.id, authorizationToken)
+        await context.close()
     })
 })

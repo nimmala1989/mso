@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { BrowserContext, test } from '@playwright/test';
 import { Endpoints } from '../../config/setup';
 import { CustomWaits } from '../../pages/common';
 import { Login } from '../../pages/login.po';
@@ -25,9 +25,11 @@ test.describe.serial("Create and verify value", async () => {
         assignedProcesses: "",
         assignedRules: ""
     }
+    let context: BrowserContext
 
     test.beforeAll(async ({ browser }) => {
-        const page = await browser.newPage();
+        context = await browser.newContext();
+        const page = await context.newPage();
         login = new Login(page);
         customWaits = new CustomWaits(page);
         tagCondition = new Create(page);
@@ -110,5 +112,9 @@ test.describe.serial("Create and verify value", async () => {
     test("Verify Assigned Rules value", async () => {
         await table.selectByName(data.name)
         await editOrView.assignedRules.verify(data.assignedRules)
+    })
+
+    test.afterAll(async ({ }) => {
+        await context.close()
     })
 })

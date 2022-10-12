@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { BrowserContext, test } from '@playwright/test';
 import { Endpoints } from '../../config/setup';
 import { Comment, CustomWaits } from '../../pages/common';
 import { Login } from '../../pages/login.po';
@@ -13,18 +13,20 @@ test.describe.serial("On Rules Page", async () => {
     let comment: Comment
     let customWaits: CustomWaits
 
-    let udpatedData = {name: ""}
-    let data = {name: ""}
+    let udpatedData = { name: "" }
+    let data = { name: "" }
+    let context: BrowserContext
 
     test.beforeAll(async ({ browser }) => {
-        const page = await browser.newPage();
+        context = await browser.newContext();
+        const page = await context.newPage();
         login = new Login(page);
         create = new Create(page);
         editOrView = new EditOrView(page);
         table = new Table(page);
         comment = new Comment(page)
         customWaits = new CustomWaits(page)
-        
+
         page.on('request', async request => {
             let allHeaders = await request.allHeaders()
             if (allHeaders.authorization && allHeaders.authorization != 'Bearer null') {
@@ -124,7 +126,9 @@ test.describe.serial("On Rules Page", async () => {
         await table.selectByName(create.data.name)
     })
 
-    test.afterAll(async () => {
-        await editOrView.deleteRulesCreateByAutomation(authorizationToken)
+    test.afterAll(async ({ }) => {
+        await context.close()
+        let id1 = await editOrView.getRuleId(udpatedData.name)
+        await editOrView.deleteRules(id1, authorizationToken)
     })
 })

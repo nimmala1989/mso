@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { BrowserContext, test } from '@playwright/test';
 import { Endpoints } from '../../config/setup';
 import { Comment, CustomWaits } from '../../pages/common';
 import { Login } from '../../pages/login.po';
@@ -12,8 +12,11 @@ test.describe.serial("On Rules Page", async () => {
     let authorizationToken: string
     let comment: Comment
     let customWaits: CustomWaits
+    let context: BrowserContext
 
-    test.beforeEach(async ({ page }) => {
+    test.beforeAll(async ({ browser }) => {
+        context = await browser.newContext();
+        const page = await context.newPage();
         login = new Login(page);
         create = new Create(page);
         editOrView = new EditOrView(page);
@@ -31,6 +34,10 @@ test.describe.serial("On Rules Page", async () => {
         await login.loginToTheApplication()
         await login.selectClient('FAB2')
         await customWaits.waitForFiltersToLoad()
+    })
+
+    test.afterEach(async () => {
+        await create.closeRulesPopup()
     })
 
     test("Check that rules with duplicate name cannot be created", async () => {
@@ -61,7 +68,7 @@ test.describe.serial("On Rules Page", async () => {
         await errorMessages.verifyWarningDateMustBeBeforeExpirationDate()
     })
 
-    test.afterAll(async () => {
-        await editOrView.deleteRulesCreateByAutomation(authorizationToken)
+    test.afterAll(async ({}) => {
+        await context.close()
     })
 })

@@ -1,4 +1,4 @@
-import { Page, test } from '@playwright/test';
+import { BrowserContext, Page, test } from '@playwright/test';
 import { Endpoints } from '../../config/setup';
 import { Post } from "../../pages/apis/post";
 import { Login } from '../../pages/login.po';
@@ -16,9 +16,11 @@ test.describe.serial("On Rules Page", async () => {
     let comment: Comment
     let customWaits: CustomWaits
     let rulesData: { name: string, id: string }[] = []
+    let context: BrowserContext
 
     test.beforeAll(async ({ browser }) => {
-        const page = await browser.newPage();
+        context = await browser.newContext();
+        const page = await context.newPage();
         current_page = page
         login = new Login(page);
         editOrView = new EditOrView(page);
@@ -55,6 +57,10 @@ test.describe.serial("On Rules Page", async () => {
         await table.selectCheckboxByName(rulesData[2].name)
     })
 
+    test.afterEach(async () => {
+        await bulkActions.waitForBulkActionToDisapper()
+    })
+
     test("Perform bulk edit and verify all the rules are updated", async () => {
         await bulkActions.selectEdit()
         await bulkActions.editExpirationDate()
@@ -88,7 +94,7 @@ test.describe.serial("On Rules Page", async () => {
         await table.waitForRuleToDisappear(rulesData[2].name)
     })
 
-    test.afterAll(async () => {
-        await editOrView.deleteRulesCreateByAutomation(authorizationToken)
+    test.afterAll(async ({}) => {
+        await context.close()
     })
 })

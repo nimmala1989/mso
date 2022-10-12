@@ -68,7 +68,8 @@ test.describe.serial("On Rules Page", async () => {
         await editOrView.verifyName(create.data.name)
     })
 
-    test.afterAll(async () => {
-        await editOrView.deleteRulesCreateByAutomation(authorizationToken)
+    test.afterEach(async () => {
+        let id1 = await editOrView.getRuleId(create.data.name)
+        await editOrView.deleteRules(id1, authorizationToken)
     })
 })

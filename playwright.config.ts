@@ -7,11 +7,10 @@ const config: PlaywrightTestConfig = {
     name: 'Chrome Stable',
     
     // timeout options
-    timeout: 120000,
-    globalTimeout: 3000000,
+    timeout: 1800000,
 
     // Number of times to execution tests if failed
-    retries: 1,
+    retries: 0,
 
     // Location of the test cases
     testDir: __dirname,
@@ -20,10 +19,12 @@ const config: PlaywrightTestConfig = {
     testIgnore: '**/*ignore',
 
     // Limit the number of workers on CI, use default locally
-    workers: process.env.CI ? 2 : 2,
+    workers: process.env.CI ? 2 : 4,
 
     // Forbid test.only on CI
     forbidOnly: !!process.env.CI,
+
+    reporter: 'html',
 
     use: {
         // Browser options
@@ -31,8 +32,11 @@ const config: PlaywrightTestConfig = {
         browserName: 'chromium',
         channel: 'chrome',
         // Artifacts
-        screenshot: 'on',
-        video: 'on',
+        screenshot: 'only-on-failure',
+        video: {
+            mode: 'retain-on-failure', 
+            size: { width: 640, height: 480 }
+        },
         trace: 'retry-with-trace',
 
         // Context options
