@@ -17,8 +17,14 @@ export const Endpoints = {
     getRulesGroup: function (client: string = 'FAB2') {
         return `/mso20/api/rulegroups/facility/${client}`
     },
+    getWaivers: function () {
+        return `/mso20/api/waivers`
+    },
     deleteRuleGroup: function (id: string) {
         return `/mso20/api/rulegroups/facility/FAB2/ruleGroup/${id}`
+    },
+    deleteWaiver: function (id: string) {
+        return `/mso20/api/waivers/${id}`
     },
 }
 

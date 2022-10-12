@@ -28,7 +28,7 @@ const config: PlaywrightTestConfig = {
 
     use: {
         // Browser options
-        headless: true,
+        headless: false,
         browserName: 'chromium',
         channel: 'chrome',
         // Artifacts
