@@ -75,16 +75,16 @@ export class WaiverPage {
         const self = this
         return {
             async select(valueToSelect: string | number = 0) {
-                // await self.base.locator(self.waiverLocators.smpRuleName_dropdown).click()
+                await self.base.locator(self.waiverLocators.smpRuleName_dropdown).click()
                 if (typeof (valueToSelect) == 'number') {
                     await self.page.getByRole('option').nth(valueToSelect).click()
                 } else {
                     await self.page.getByRole('option', { name: valueToSelect }).getByText(valueToSelect).click();
                 }
-                return await self.base.getByRole('option', {selected: true}).textContent()
+                return await self.base.locator(self.waiverLocators.smpRuleName_dropdown).locator('.mat-select-min-line').textContent()
             },
             async verify(expectedValue: string) {
-                const actualValue = await self.base.getByRole('option', {selected: true}).textContent()
+                const actualValue = await self.base.locator(self.waiverLocators.smpRuleName_dropdown).locator('.mat-select-min-line').textContent()
                 expect(actualValue).toBe(expectedValue.toString())
             }
         }
@@ -109,7 +109,8 @@ export class WaiverPage {
         const self = this
         return {
             async selectAllLotsTag() {
-                await self.base.locator(self.waiverLocators.present_tag_all_lots_radioButton).click()
+                await self.page.pause()
+                await self.base.locator('.mat-radio-container .mat-radio-outer-circle').nth(0).click()
                 return self.expiration
             },
             async selectNextLotsTag() {

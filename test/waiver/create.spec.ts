@@ -35,10 +35,9 @@ test.describe.serial("On Rules Group Page", async () => {
         await login.loginToTheApplication()
         await login.selectClient('FAB2')
         await customWaits.waitForFiltersToLoad()
-        await page.pause()
     })
 
-    test("Create ", async () => {
+    test.only("Create ", async () => {
         await waiver.navigateToPage()
         await waiver.openCreatePopup()
         tempData.type = await waiver.type.selectPresent()
