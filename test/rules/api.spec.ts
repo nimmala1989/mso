@@ -2,19 +2,12 @@ import { BrowserContext, Page, test } from '@playwright/test';
 import { Endpoints } from '../../config/setup';
 import { Post } from "../../pages/apis/post";
 import { Login } from '../../pages/login.po';
-import { BulkActions, EditOrView, Table } from '../../pages/rules';
-import { Comment, CustomWaits } from '../../pages/common';
 
 test.describe.serial("On Rules Page", async () => {
     let current_page: Page
     let login: Login
-    let editOrView: EditOrView
-    let table: Table
     let authorizationToken: string
     let post: Post
-    let bulkActions: BulkActions
-    let comment: Comment
-    let customWaits: CustomWaits
     let rulesData: { name: string, id: string }[] = []
     let context: BrowserContext
 
@@ -23,12 +16,7 @@ test.describe.serial("On Rules Page", async () => {
         const page = await context.newPage();
         current_page = page
         login = new Login(page);
-        editOrView = new EditOrView(page);
-        table = new Table(page);
         post = new Post()
-        bulkActions = new BulkActions(page)
-        comment = new Comment(page)
-        customWaits = new CustomWaits(page)
 
         page.on('request', async request => {
             let allHeaders = await request.allHeaders()
@@ -39,7 +27,6 @@ test.describe.serial("On Rules Page", async () => {
         await page.goto(Endpoints.baseUrl + Endpoints.baseEndpoint, { timeout: 120000, waitUntil: 'load' });
         await login.loginToTheApplication()
         await login.selectClient('FAB2')
-        // await customWaits.waitForFiltersToLoad()
         
 
         // Create rule 1
