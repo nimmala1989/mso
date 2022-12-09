@@ -39,7 +39,7 @@ test.describe.serial("On Rules Page", async () => {
         await current_page.reload()
     })
 
-    test("Perform bulk edit and verify all the rules are updated", async () => {
+    test.only("Perform bulk edit and verify all the rules are updated", async () => {
         console.log(rulesData)
     })
 

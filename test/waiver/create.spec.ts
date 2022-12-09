@@ -37,7 +37,7 @@ test.describe.serial("On Rules Group Page", async () => {
         await customWaits.waitForFiltersToLoad()
     })
 
-    test.only("Create ", async () => {
+    test("Create ", async () => {
         await waiver.navigateToPage()
         await waiver.openCreatePopup()
         tempData.type = await waiver.type.selectPresent()
